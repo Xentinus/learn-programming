@@ -1,0 +1,5 @@
+mongoimport [importálás]
+--db mongo-exercises [adatbázis megnevezése]
+--collection courses ["tábla" / kollekció neve]
+--drop --file exercise-data.json [fájl megnevezése]
+--jsonArray [presented as array]

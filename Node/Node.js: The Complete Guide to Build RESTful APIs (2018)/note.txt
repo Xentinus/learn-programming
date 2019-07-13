@@ -1,0 +1,57 @@
+Hibák:
+200 Minden rendben
+401 Rossz Token
+403 Nincs Engedély
+500 Szerver hiba
+
+*  To export a variable or function from a module, you need to add them to
+module.exports:
+module.exports.sayHello = sayHello; 
+
+* - To create a class with the ability to raise events, we should extend EventEmitter:
+class Logger extends EventEmitter {
+} 
+
+* packages
+
+// Install a package
+npm i <packageName>
+
+// Install a specific version of a package
+npm i <packageName>@<version>
+
+// Install a package as a development dependency
+npm i <packageName> —save-dev
+
+// Uninstall a package
+npm un <packageName>
+
+// List installed packages
+npm list —depth=0
+
+// View outdated packages
+npm outdated
+
+// Update packages
+npm update 
+
+* REST defines a set of conventions for creating HTTP services:
+- POST: to create a resource
+- PUT: to update it
+- GET: to read it
+- DELETE: to delete it 
+
+* Express has a few built-in middleware functions:
+- json(): to parse the body of requests with a JSON payload
+- urlencoded(): to parse the body of requests with URL-encoded payload
+- static(): to serve static files
+
+* Custom middleware (applied on routes starting with /api/admin)
+app.use(‘/api/admin’, function(req, res, next)) {
+ // …
+ next();
+} 
+
+* We can detect the environment in which our Node application is running
+(development, production, etc) using process.env.NODE_ENV and
+app.get(‘env’). 
