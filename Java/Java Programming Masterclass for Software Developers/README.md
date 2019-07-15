@@ -299,3 +299,85 @@ if (isCar) {
   return false;
 }
 ```
+
+## Kifejezések, kulcsszavak
+
+### Expression
+
+```java
+int myVariable = 50;
+// Ebből expression csak ez:
+myVariable = 50
+
+
+System.out.println("Ez egy szöveg");
+// Ebből expression csak ez:
+"Ez egy szöveg"
+```
+
+### Statement
+
+Amit végre kell hajtania a gépnek.
+
+Semicolon `;` **zárja be** a statementeket ( vannak kivételek )
+
+```java
+// Az egész sor egy statement
+int myVariable = 50;
+
+//Több Statement egy sorban
+int anotherVariable = 50;myVariable--;System.out.println("This is another one");
+
+1.) int anotherVariable = 50;
+2.) myVariable--;
+3.) System.out.println("This is another one");
+```
+
+### Whitespace
+
+Szóközök, tabok kulcsszavak és kifejezések között. Mindegy mennyi whitespacet teszel közéje, Java átalakítja magának.
+
+```java
+int         sokWhiteScapees    =    20;
+
+// átalakítva
+int sokWhiteScapees=20;
+```
+
+### Code Block, Scope
+
+`{` és `}` között lévő tartalom
+
+```java
+if (score == 5000) {
+  System.out.println("Your score was 5k");
+} else if (score > 5000) {
+  System.out.println("Your score was greate than 5k");
+} else {
+  System.out.println("Got here");
+}
+```
+
+Code Blockon belül deklarált változók nem használhatók azon kivül, csak azon belül
+
+```java
+int nulla = 0;
+
+if (true) {
+  int egy = 1;
+  // <- Elérhető: nulla, egy
+
+  if (true) {
+    int ketto = 2;
+    // <- Elérhető: nulla, egy, ketto
+  }
+
+  int harom = 3;
+  // <- Elérhető: nulla, egy, harom
+}
+
+int negy = 4;
+// <- Elérhető: nulla, negy
+```
+
+### Metódusok
