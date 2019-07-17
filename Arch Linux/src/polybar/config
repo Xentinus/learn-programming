@@ -1,0 +1,387 @@
+################################################################################
+################                    SETTINGS                     ###############
+################################################################################
+
+[colors]
+background = #2B2E37
+foreground = #979FAE
+
+alert = #E06C75
+volume-min = #98C379
+volume-med = #E5C07B
+volume-max = #E06C75
+
+blue = #61AFEF
+red = #E06C75
+yellow = #E5C07B
+green = #98C379
+purple = #C678DD
+
+discord = #738adb
+
+[settings]
+screenchange-reload = true
+
+[global/wm]
+margin-top = 0
+margin-bottom = 0
+
+################################################################################
+##################                    BARS                     #################
+################################################################################
+
+[bar/hdmi]
+monitor = ${env:MONITOR:HDMI-1}
+monitor-strict = true
+override-redirect = false
+bottom = false
+fixed-center = true
+width = 100%
+height = 22
+radius = 0.0
+dim-value = 1.0
+
+locale = en_GB.UTF-8
+enable-ipc = true
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 2
+line-color = ${colors.foreground}
+
+border-size = 0
+border-color = ${colors.background}
+
+padding-left = 1
+padding-right = 1
+
+module-margin-left = 0
+module-margin-right = 0
+
+font-0 = "Source Sans Pro:style=Regular:pixelsize=11;1"
+font-1 = "UbuntuMono Nerd Font:size=12;1"
+font-2 = "UbuntuMono Nerd Font:size=17;3"
+font-3 = "Font Awesome 5 Free:style=Regular:pixelsize=8;1"
+font-4 = "Font Awesome 5 Free:style=Solid:pixelsize=8;1"
+font-5 = "Font Awesome 5 Brands:pixelsize=8;1"
+
+modules-left = github arrow1
+modules-center =
+modules-right = arrow2 networkspeedup networkspeeddown arrow3 cpu arrow4 memory arrow5 pamac-manager arrow6 date
+
+separator =
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+################################################################################
+
+[bar/dvi]
+monitor = ${env:MONITOR:DVI-I-0}
+monitor-strict = true
+override-redirect = false
+bottom = false
+fixed-center = true
+width = 100%
+height = 22
+radius = 0.0
+dim-value = 1.0
+
+locale = en_GB.UTF-8
+enable-ipc = true
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 2
+line-color = ${colors.foreground}
+
+border-size = 0
+border-color = ${colors.background}
+
+padding-left = 1
+padding-right = 1
+
+module-margin-left = 0
+module-margin-right = 0
+
+font-0 = "Source Sans Pro:style=Regular:pixelsize=11;1"
+font-1 = "UbuntuMono Nerd Font:size=12;2"
+font-2 = "UbuntuMono Nerd Font:size=17;3"
+font-3 = "Font Awesome 5 Free:style=Regular:pixelsize=8;1"
+font-4 = "Font Awesome 5 Free:style=Solid:pixelsize=8;1"
+font-5 = "Font Awesome 5 Brands:pixelsize=8;1"
+
+modules-left = spotify arrow7 volume arrow8
+modules-center =
+modules-right = arrow9 discord arrow10 chromium
+
+tray-position = center
+tray-detached = false
+tray-maxsize = 20
+tray-offset-x = 0
+tray-offset-y = 0
+tray-padding = 4
+tray-scale = 1.0
+tray-background = ${colors.background}
+
+separator =
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+################################################################################
+#################                    ARROWS                     ################
+################################################################################
+
+[module/arrow1]
+type = custom/text
+content = "%{T3} %{T-}"
+content-font = 2
+content-foreground = ${colors.blue}
+content-background = ${colors.background}
+
+[module/arrow2]
+type = custom/text
+content = "%{T3} %{T-}"
+content-font = 2
+content-foreground = ${colors.red}
+content-background = ${colors.background}
+
+[module/arrow3]
+type = custom/text
+content = "%{T3} %{T-}"
+content-font = 2
+content-foreground = ${colors.yellow}
+content-background = ${colors.red}
+
+[module/arrow4]
+type = custom/text
+content = "%{T3} %{T-}"
+content-font = 2
+content-foreground = ${colors.green}
+content-background = ${colors.yellow}
+
+[module/arrow5]
+type = custom/text
+content = "%{T3} %{T-}"
+content-font = 2
+content-foreground = ${colors.purple}
+content-background = ${colors.green}
+
+[module/arrow6]
+type = custom/text
+content = "%{T3} %{T-}"
+content-font = 2
+content-foreground = ${colors.blue}
+content-background = ${colors.purple}
+
+[module/arrow7]
+type = custom/text
+content = "%{T3} %{T-}"
+content-font = 2
+content-foreground = ${colors.green}
+content-background = ${colors.yellow}
+
+[module/arrow8]
+type = custom/text
+content = "%{T3} %{T-}"
+content-font = 2
+content-foreground = ${colors.yellow}
+content-background = ${colors.background}
+
+[module/arrow9]
+type = custom/text
+content = "%{T3} %{T-}"
+content-font = 2
+content-foreground = ${colors.discord}
+content-background = ${colors.background}
+
+[module/arrow10]
+type = custom/text
+content = "%{T3} %{T-}"
+content-font = 2
+content-foreground = ${colors.red}
+content-background = ${colors.discord}
+
+################################################################################
+################                    MODULES                     ################
+################################################################################
+
+[module/cpu]
+;https://github.com/jaagr/polybar/wiki/Module:-cpu
+type = internal/cpu
+interval = 1
+
+format-foreground = ${colors.background}
+format-background = ${colors.yellow}
+format-prefix = "  "
+format-prefix-foreground = ${colors.background}
+
+label-font = 1
+format = <label>
+label = Cpu: %percentage:1%%
+
+################################################################################
+
+[module/memory]
+;https://github.com/jaagr/polybar/wiki/Module:-memory
+type = internal/memory
+interval = 1
+
+label = %percentage_used%%
+
+format = Mem: <label>
+format-prefix = "  "
+format-prefix-foreground = ${colors.background}
+format-foreground = ${colors.background}
+format-background = ${colors.green}
+
+################################################################################
+
+[module/networkspeedup]
+;https://github.com/jaagr/polybar/wiki/Module:-network
+type = internal/network
+interface = enp3s0
+
+label-connected = "%upspeed:7% | "
+format-connected = <label-connected>
+format-connected-prefix = "  "
+format-connected-prefix-foreground = ${colors.background}
+format-connected-foreground = ${colors.background}
+format-connected-background = ${colors.red}
+
+[module/networkspeeddown]
+;https://github.com/jaagr/polybar/wiki/Module:-network
+type = internal/network
+interface = enp3s0
+
+label-connected = "%downspeed:7%"
+format-connected = <label-connected>
+format-connected-prefix = "  "
+format-connected-prefix-foreground = ${colors.background}
+format-connected-foreground = ${colors.background}
+format-connected-background = ${colors.red}
+
+################################################################################
+
+[module/date]
+;https://github.com/jaagr/polybar/wiki/Module:-date
+type = internal/date
+interval = 1
+
+date = "%d-%m-%Y%"
+date-alt = " %Y-%m-%d"
+
+time = %H:%M
+time-alt = %H:%M:%S
+
+format-prefix = "  "
+format-prefix-foreground = ${colors.background}
+format-foreground = ${colors.background}
+format-background = ${colors.blue}
+format-padding = 2
+label = %date% | %time%
+
+################################################################################
+
+[module/github]
+;https://github.com/jaagr/polybar/wiki/Module:-github
+type = internal/github
+interval = 60
+tail = true
+
+token = ${file:~/.config/polybar/github.token}
+
+empty-notifications = true
+format-prefix = "  "
+format-prefix-foreground = ${colors.background}
+format-foreground = ${colors.background}
+format-background = ${colors.blue}
+format-padding = 2
+label = %notifications%
+
+################################################################################
+
+[module/spotify]
+;https://github.com/NicholasFeldman/dotfiles/blob/master/polybar/.config/polybar/spotify.sh
+type = custom/script
+exec = ~/.config/polybar/scripts/spotify.sh
+interval = 1
+
+click-left = dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
+click-right = dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
+
+scroll-up = dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Play
+scroll-down = dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Pause
+
+format-foreground = ${colors.background}
+format-background = ${colors.green}
+format-padding = 2
+format-prefix-foreground = ${colors.background}
+format-prefix = "   "
+label = %output:0:150%
+
+################################################################################
+
+[module/discord]
+type = custom/script
+exec = echo " Discord "
+interval = 100000
+click-left = discord &
+click-right = killall Discord & killall Discord &
+tail = true
+
+format-foreground = ${colors.background}
+format-background = ${colors.discord}
+format-padding = 1
+format-prefix-foreground = ${colors.background}
+format-prefix = " ﭮ "
+
+################################################################################
+
+[module/chromium]
+type = custom/script
+exec = echo " Chromium "
+interval = 100000
+click-left = chromium &
+
+format-foreground = ${colors.background}
+format-background = ${colors.red}
+format-padding = 1
+format-prefix-foreground = ${colors.background}
+format-prefix = "  "
+
+################################################################################
+
+[module/volume]
+type = custom/script
+tail = true
+label = %output%
+exec = ~/.config/polybar/scripts/pavolume.sh --listen
+
+click-right = exec pavucontrol
+click-left = ~/.config/polybar/scripts/pavolume.sh --togmute
+
+scroll-up = ~/.config/polybar/scripts/pavolume.sh --up
+scroll-down = ~/.config/polybar/scripts/pavolume.sh --down
+
+format-foreground = ${colors.background}
+format-background = ${colors.yellow}
+
+################################################################################
+
+[module/pamac-manager]
+type = custom/script
+exec = pamac checkupdates -q | wc -l
+interval = 60
+label = Upd: %output%
+tail = true
+format-foreground = ${colors.background}
+format-background = ${colors.purple}
+format-prefix-foreground = ${colors.background}
+click-left = pamac-manager &
+format-prefix = "  "
+
+################################################################################

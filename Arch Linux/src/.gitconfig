@@ -1,0 +1,27 @@
+[user]
+	name = Béla Kellner
+	email = xentinus95@gmail.com
+
+[github]
+  user = xentinus
+  token = d1076f6dc28f2bff021ef7711ce7dd4e6e7be290
+
+[core]
+  editor = code
+
+[web]
+  browser = chromium
+
+[color]
+    ui = auto
+    branch = auto
+    diff = auto
+    status = auto
+    interactive = auto
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
