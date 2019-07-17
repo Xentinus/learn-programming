@@ -375,7 +375,7 @@ format-background = ${colors.yellow}
 [module/pamac-manager]
 type = custom/script
 exec = pamac checkupdates -q | wc -l
-interval = 60
+interval = 300
 label = Upd: %output%
 tail = true
 format-foreground = ${colors.background}
