@@ -207,6 +207,8 @@ greeter-session=lightdm-webkit2-greeter
 webkit-theme=litarvan
 ```
 
+Késöbb érdemes letölteni a legfrissebb verziót [innen](https://github.com/Litarvan/lightdm-webkit-theme-litarvan).
+
 ### Microcode telepítése
 
 ```bash
@@ -239,6 +241,20 @@ $ cd yay
 $ makepkg -si
 ```
 
+### Mongo adatbázis beállítása
+
+```bash
+$ systemctl enable mongodb.service
+```
+
+### NTFS partíció támogatása
+
+*Ez csak akkor szükséges ha van egy közös partició a windows-al ami NTFS*
+
+```bash
+$ pacman -S ntfs-3g
+```
+
 ### Egyéb particíók megjelenítésének beállítása
 
 `$ nano /etc/fstab/` beállítása hasonlóra
@@ -256,21 +272,11 @@ UUID=9fbfbc80-597e-4daf-af90-bbecfa26fb4b	/         	ext4      	rw,relatime	0 1
 # Arch Linux - Swap
 UUID=c95c1e39-ff82-43c5-8203-6a7dec0b70fb	none      	swap      	defaults  	0 0
 
-# 1TB Global Storage
+# Global Storage
+UUID=6CE6AD66E6AD316E /mnt/6CE6AD66E6AD316E ntfs-3g users,defaults,x-gvfs-show,x-gvfs-name=Global%20Storage 0 0
 
 # Windows Storage
-/dev/disk/by-uuid/8C521D6D521D5D70 /mnt/8C521D6D521D5D70 auto nosuid,nodev,nofail,noauto,x-udisks-auth 0 0
-
 UUID=7E54F89654F8527F /mnt/7E54F89654F8527F auto nosuid,nodev,nofail,noauto 0 0
-UUID=6CE6AD66E6AD316E /mnt/6CE6AD66E6AD316E ntfs-3g users,defaults,x-gvfs-show,x-gvfs-name=Global%20Storage 0 0
-```
-
-#### NTFS partíció támogatása
-
-*Ez csak akkor szükséges ha van egy közös partició a windows-al ami NTFS*
-
-```bash
-$ pacman -S ntfs-3g
 ```
 
 ### Kuka és eltávolítható particiók telepítése
@@ -307,6 +313,7 @@ Mentés, majd `$ grub-mkconfig -o /boot/grub/grub.cfg` futtatása
 | p7zip | Alap |
 | unrar | Alap |
 | unzip | Alap |
+| xarchiver | Alap |
 | discord | **AUR** |
 | pamac-aur | **AUR** |
 | spotify | **AUR** |
@@ -341,7 +348,7 @@ Mentés, majd `$ grub-mkconfig -o /boot/grub/grub.cfg` futtatása
 | adobe-source-code-pro-fonts | Alap |
 | adobe-source-sans-pro-fonts | Alap |
 | ttf-ubuntu-font-family | Alap |
-| arc-dark-xfce4-terminal | **AUR** |
+| vlc-arc-dark-git | **AUR** |
 | bibata-cursor-theme | **AUR** |
 | nerd-fonts-complete | **AUR** |
 | polybar | **AUR** |
@@ -406,6 +413,10 @@ Mentés, majd `$ grub-mkconfig -o /boot/grub/grub.cfg` futtatása
 
 ### Terminal Preferences
 
+## Terminal Present beállítása
+
+`/usr/share/xfce4/terminal/colorschemes/` <- `onedark.theme` fájl bemásolása az `src` mappából
+
 | Füll | Parancs | Érték |
 | --- | --- | --- |
 | General | Dinamikus fejléc | Kikapcsolva |
@@ -416,7 +427,7 @@ Mentés, majd `$ grub-mkconfig -o /boot/grub/grub.cfg` futtatása
 | Appearance | Háttér beállítása | Átlátszó 0.95 |
 | Appearance | Oszlopok mennyisége | 120 |
 | Appearance | Sorok mennyisége | 30 |
-| Colours | Presets beállítása | Arc-Dark (dark) |
+| Colours | Presets beállítása | One Dark |
 | Advanced | Középső gombal tabok bezárása | Kikapcsolva |
 
 ### Mouse and Touchpad
@@ -468,5 +479,3 @@ Mentés, majd `$ grub-mkconfig -o /boot/grub/grub.cfg` futtatása
 ## Bashrc beállítása
 
 `$HOME/` <- `.bashrc` fájl bemásolása az `src` mappából
-
-## Mongo adatbázis beállítása
