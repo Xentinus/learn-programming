@@ -1,5 +1,7 @@
 # Java tanulás
 
+[http://java.progtanulo.hu/java-programozas](http://java.progtanulo.hu/java-programozas)
+
 ## Változók
 
 ### Egész számok
@@ -300,9 +302,9 @@ if (isCar) {
 }
 ```
 
-## Kifejezések, kulcsszavak
+## Kifejezések, utasítások, blokkok
 
-### Expression
+### Expression (kifejezés)
 
 ```java
 int myVariable = 50;
@@ -315,7 +317,7 @@ System.out.println("Ez egy szöveg");
 "Ez egy szöveg"
 ```
 
-### Statement
+### Statement (utasítás)
 
 Amit végre kell hajtania a gépnek.
 
@@ -344,7 +346,7 @@ int         sokWhiteScapees    =    20;
 int sokWhiteScapees=20;
 ```
 
-### Code Block, Scope
+### Code Block (blokkok)
 
 `{` és `}` között lévő tartalom
 
@@ -407,4 +409,140 @@ private static int calculateHighScorePosition(int playerScore) {
 
   return position;
 }
+```
+
+#### Method Overloading
+
+A **paraméterek** miatt különbözöek, de például void-ként már az írja hogy a metódus neve már használatban van.
+
+```java
+public static void main(String[] args) {
+  System.out.println(getDurationString(61, 0));
+  System.out.println(getDurationString(1234));
+}
+
+ public static String getDurationString(int minutes, int seconds) {
+  if ((minutes < 0) || ((seconds < 0) || seconds > 59)) {
+    return "Invalid value";
+  }
+
+  int hours = minutes / 60;
+  minutes %= 60;
+
+  return hours + "h " + minutes + "m " + seconds + "s";
+}
+
+public static String getDurationString(int seconds) {
+  if (seconds < 0) {
+    return "Invalid value";
+  }
+
+  int minutes = seconds / 60;
+  seconds %= 60;
+
+  return getDurationString(minutes, seconds);
+}
+```
+
+### Const
+
+Végig nagy betűvel, hogy különbözzön egy sima változótól.
+
+```java
+private static final String INVALID_VALUE_MESSAGE = "Invalid value";
+```
+
+## Vezérlési szerkezetek
+
+### Switch case
+
+Használható változó típusok: byte, short, char és int
+
+```java
+int value = 1;
+
+switch (value) {
+  case 1:
+      System.out.println("Value was 1");
+      break;
+  case 2:
+      System.out.println("Value was 2");
+      break;
+  case 3: case 4: case 5:
+      System.out.println("Was a 3, or a 4, or a 5");
+      break;
+  default:
+      System.out.println("Was not 1 or 2");
+      // break;
+}
+```
+
+### For
+
+```java
+for (int i = 0; i < 5; i++) {
+    System.out.println("Loop " + i + " hello!");
+}
+```
+
+### While
+
+```java
+int whileCount = 0;
+while ( whileCount != 5 ) {
+    System.out.println( "Count value is " + whileCount );
+    whileCount++;
+}
+```
+
+### Do While
+
+```java
+whileCount = 1;
+do {
+    System.out.println( "Count value was " + whileCount );
+    whileCount++;
+} while ( whileCount != 6 );
+```
+
+## Stringből számérték
+
+Ha a stringben számon kívül más is található, akkor errot fog kiadni.
+
+```java
+String numberAsString = "2018";
+System.out.println( "numberAsString = " + numberAsString );
+
+int parseNumber = Integer.parseInt( numberAsString );
+System.out.println( "number = " + parseNumber );
+
+numberAsString = "2018.125";
+
+double doubleNumber = Double.parseDouble( numberAsString );
+System.out.println( "doublenumber = " + doubleNumber );
+```
+
+## Bekérés konzolról
+
+Mineden Int (és hasonló számos után) kell egy `nextLine()` amivel eltudjuk intézni az enter problémákat.
+
+```java
+// Fájl teteje:
+import java.util.Scanner;
+
+// Main:
+Scanner scanner = new Scanner( System.in );
+
+System.out.println( "Enter your year of birth: " );
+int yearOfBirth = scanner.nextInt();
+int age = 2019 - yearOfBirth;
+
+scanner.nextLine(); // handle next line character (enter key
+
+System.out.println( "Enter your name: " );
+String name = scanner.nextLine();
+
+System.out.println( "Your name is " + name + ", and you are " + age + " years old." );
+
+scanner.close();
 ```

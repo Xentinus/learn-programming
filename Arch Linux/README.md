@@ -468,6 +468,14 @@ Mentés, majd `$ grub-mkconfig -o /boot/grub/grub.cfg` futtatása
 | General | Tisztítás eltünéskor | Bekapcsolva |
 | Extensions | Kellendő kiegészítők | Applications, Chrome bookmarks, System, Terminal |
 
+## Keyring kikapcsolása
+
+```bash
+$ pacman -S seahorse
+```
+
+Majd `Deafult keyring`-nél jobb katt és megkell változtatni a jelszót **üresre**
+
 ## Polybar beállítása
 
 `$HOME/.config/` <- polybar mappa bemásolása az `src` mappából

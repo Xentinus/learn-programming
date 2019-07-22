@@ -20,8 +20,21 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="513">
-              <caret line="80" lean-forward="true" selection-start-line="80" selection-end-line="80" />
+            <state relative-caret-position="210">
+              <caret line="112" column="5" lean-forward="true" selection-start-line="112" selection-start-column="5" selection-end-line="112" selection-end-column="5" />
+              <folding>
+                <element signature="method#main#0;class#Main#0" expanded="true" />
+                <element signature="method#getDurationString#0;class#Main#0" expanded="true" />
+                <element signature="method#getDurationString#1;class#Main#0" expanded="true" />
+                <element signature="method#calcFeetAndInchesToCentimeters#0;class#Main#0" expanded="true" />
+                <element signature="method#calcFeetAndInchesToCentimeters#1;class#Main#0" expanded="true" />
+                <element signature="method#cScore#0;class#Main#0" expanded="true" />
+                <element signature="method#cScore#1;class#Main#0" expanded="true" />
+                <element signature="method#cScore#2;class#Main#0" expanded="true" />
+                <element signature="method#calculateScore#0;class#Main#0" expanded="true" />
+                <element signature="method#displayHighScorePosition#0;class#Main#0" expanded="true" />
+                <element signature="method#calculateHighScorePosition#0;class#Main#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -50,9 +63,9 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="207" />
-    <option name="y" value="80" />
-    <option name="width" value="1388" />
+    <option name="x" value="544" />
+    <option name="y" value="445" />
+    <option name="width" value="1376" />
     <option name="height" value="1000" />
   </component>
   <component name="ProjectView">
@@ -81,10 +94,12 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Java" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -136,9 +151,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="22" width="1924" height="1060" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2603834" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15261473" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -148,8 +162,8 @@
       <window_info id="Favorites" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32977587" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3290461" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39978564" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32977587" />
@@ -170,8 +184,21 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="80" lean-forward="true" selection-start-line="80" selection-end-line="80" />
+        <state relative-caret-position="210">
+          <caret line="112" column="5" lean-forward="true" selection-start-line="112" selection-start-column="5" selection-end-line="112" selection-end-column="5" />
+          <folding>
+            <element signature="method#main#0;class#Main#0" expanded="true" />
+            <element signature="method#getDurationString#0;class#Main#0" expanded="true" />
+            <element signature="method#getDurationString#1;class#Main#0" expanded="true" />
+            <element signature="method#calcFeetAndInchesToCentimeters#0;class#Main#0" expanded="true" />
+            <element signature="method#calcFeetAndInchesToCentimeters#1;class#Main#0" expanded="true" />
+            <element signature="method#cScore#0;class#Main#0" expanded="true" />
+            <element signature="method#cScore#1;class#Main#0" expanded="true" />
+            <element signature="method#cScore#2;class#Main#0" expanded="true" />
+            <element signature="method#calculateScore#0;class#Main#0" expanded="true" />
+            <element signature="method#displayHighScorePosition#0;class#Main#0" expanded="true" />
+            <element signature="method#calculateHighScorePosition#0;class#Main#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -238,6 +265,17 @@
         </settings>
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ScopeChooserConfigurable.UI">
         <settings>
           <splitter-proportions>
             <option name="proportions">
