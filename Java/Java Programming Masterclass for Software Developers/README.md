@@ -452,6 +452,13 @@ Végig nagy betűvel, hogy különbözzön egy sima változótól.
 private static final String INVALID_VALUE_MESSAGE = "Invalid value";
 ```
 
+Vannak beépítettek is
+
+```java
+int inputMax = Integer.MIN_VALUE;
+int inputMin = Integer.MAX_VALUE;
+```
+
 ## Vezérlési szerkezetek
 
 ### Switch case
@@ -524,7 +531,7 @@ System.out.println( "doublenumber = " + doubleNumber );
 
 ## Bekérés konzolról
 
-Mineden Int (és hasonló számos után) kell egy `nextLine()` amivel eltudjuk intézni az enter problémákat.
+Minden Int (és hasonló számos után) kell egy `nextLine()` amivel eltudjuk intézni az enter problémákat.
 
 ```java
 // Fájl teteje:
@@ -533,16 +540,24 @@ import java.util.Scanner;
 // Main:
 Scanner scanner = new Scanner( System.in );
 
-System.out.println( "Enter your year of birth: " );
-int yearOfBirth = scanner.nextInt();
-int age = 2019 - yearOfBirth;
+int inputMax = Integer.MIN_VALUE;
+int inputMin = Integer.MAX_VALUE;
 
-scanner.nextLine(); // handle next line character (enter key
+while ( true ) {
+    System.out.println( "Enter number:" );
+    boolean userInputInt = scanner.hasNextInt();
+    if ( userInputInt ) {
+        int userInt = scanner.nextInt();
+        inputMax = userInt > inputMax ? userInt : inputMax;
+        inputMin = userInt < inputMin ? userInt : inputMin;
+    } else {
+        System.out.println( "Min: " + inputMin );
+        System.out.println( "Max: " + inputMax );
+        break;
+    }
 
-System.out.println( "Enter your name: " );
-String name = scanner.nextLine();
-
-System.out.println( "Your name is " + name + ", and you are " + age + " years old." );
+    scanner.nextLine();
+}
 
 scanner.close();
 ```
