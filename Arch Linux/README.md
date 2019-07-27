@@ -348,7 +348,6 @@ Mentés, majd `$ grub-mkconfig -o /boot/grub/grub.cfg` futtatása
 | adobe-source-code-pro-fonts | Alap |
 | adobe-source-sans-pro-fonts | Alap |
 | ttf-ubuntu-font-family | Alap |
-| vlc-arc-dark-git | **AUR** |
 | bibata-cursor-theme | **AUR** |
 | nerd-fonts-complete | **AUR** |
 | polybar | **AUR** |

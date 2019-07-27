@@ -4,9 +4,9 @@
 killall -q polybar
 
 # Wait until the processes have been shut down
-while pgrep -u $UID -x polybar > /dev/null; do sleep 8; done
+while pgrep -u $UID -x polybar > /dev/null; do sleep 10; done
 
-# Launch bars
+# Launch bar1 and bar2
 polybar dvi -r &
 polybar hdmi -r &
 

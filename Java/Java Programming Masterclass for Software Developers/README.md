@@ -561,3 +561,139 @@ while ( true ) {
 
 scanner.close();
 ```
+
+## Object órientált programozás
+
+### Osztályok, Construktorok
+
+```java
+// Main
+Account peterAcccount = new Account(  );
+Account bobsAccount = new Account("12345", 0.00, "Bob Brown", "myemail@bob.com", " 1234567");
+System.out.println(bobsAccount.getCustomerName());
+
+// Account class
+public class Account {
+    private String number;
+    private double balance;
+    private String customerName;
+    private String customerEmailAddress;
+    private String customerPhoneNumber;
+
+// Construktorok üres(default értékek adása) és teli
+    public Account() {
+        this("56789", 2.50, "Default name", "Default adress", "Default phone");
+        System.out.println("Empty constructor called");
+    }
+
+    public Account( String number, double balance, String customerName, String customerEmailAddress, String customerPhoneNumber ) {
+        this.number = number;
+        this.balance = balance;
+        this.customerName = customerName;
+        this.customerEmailAddress = customerEmailAddress;
+        this.customerPhoneNumber = customerPhoneNumber;
+        System.out.println("Account constructor with parameters");
+    }
+
+// account.method() készítése
+    public void deposit ( double depositAmount) {
+        this.balance += depositAmount;
+        System.out.println("Deposit of " + depositAmount + " made. New balance is " + this.balance);
+    }
+
+    public void withdrawal (double withdrawalAmount) {
+        if ((this.balance - withdrawalAmount) >= 0) {
+            this.balance -= withdrawalAmount;
+            System.out.println("Withdrawal of " + withdrawalAmount + " processed. Remaining balance = " + this.balance);
+        } else {
+            System.out.println("Only " + this.balance + " available. Withdrawal not processed");
+        }
+    }
+
+// érték lekérés
+    public String getNumber () {
+        return number;
+    }
+
+// privátnak értékadás
+    public void setBalance ( double balance ) {
+        this.balance = balance;
+    }
+}
+```
+
+### Több rétegű osztályok
+
+Ha az adott ostályban nem találja a metodust akkor mindig **elkezd fentebbi szinteken keresni**. Tehát ha `dog`-ban nem talál `chew` akkor az `animal`-ba keres, ha ott sem talál akkor a `java fő osztályát` nézi ha ott sem talál akkor **error**
+
+```java
+// Main
+Animal animal = new Animal( 1,1,5,5,"Animal" );
+Dog dog = new Dog(8,20, "Yorkie", 2, 4, 1, 20, "Brown");
+dog.eat(); // alsó class használja a felső class metódusát
+
+// Animal - felsöbb class / super class
+
+// Az állatok egy full globális csoport, beletartoznak madarak, pókok, kutyák.
+// Globális csoportba csak azok kerülnek amik MINDEGYIKNEK vannak
+
+public class Animal {
+    private int brain;
+    private int body;
+    private int size;
+    private int weight;
+
+    private String name;
+
+    public Animal ( int brain, int body, int size, int weight, String name ) {
+        this.brain = brain;
+        this.body = body;
+        this.size = size;
+        this.weight = weight;
+        this.name = name;
+    }
+
+    public void eat() {
+        System.out.println("Animal.eat() called");
+    }
+}
+
+// Dog - alsóbb class
+
+// Az állatok globális csoport egyik alcsoportja
+// Mivel a kutya az egy állat ezért az állatcsoportban készített .eat() metódust és társait tudja használni
+
+public class Dog extends Animal { // <-- felső class beállítása
+
+    private int eyes;
+    private int legs;
+    private int tail;
+    private int teeth;
+
+    private String coat;
+
+    public Dog ( int size, int weight, String name, int eyes, int legs, int tail, int teeth, String coat ) {
+        super( 1, 1, size, weight, name ); // <-- felső class meghívása
+        this.eyes = eyes;
+        this.legs = legs;
+        this.tail = tail;
+        this.teeth = teeth;
+        this.coat = coat;
+    }
+
+    // felső class újraírása
+    // pl ha a kutyák máskép esznek mint más állatok
+
+    private void chew () {
+        System.out.println("Dog.chew() called");
+    }
+
+    @Override
+    public void eat () {
+        System.out.println("Dog.eat() called");
+        chew();
+        super.eat();
+    }
+}
+
+```
