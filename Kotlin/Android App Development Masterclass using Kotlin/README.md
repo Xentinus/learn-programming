@@ -1,4 +1,4 @@
-# Kotlin tanulás
+# Kotlin
 
 ## Parancssor kiiírása
 

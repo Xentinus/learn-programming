@@ -1,4 +1,4 @@
-# Java tanulás
+# Java
 
 [http://java.progtanulo.hu/java-programozas](http://java.progtanulo.hu/java-programozas)
 
@@ -566,13 +566,18 @@ scanner.close();
 
 ### Osztályok, Construktorok
 
+* Main
+
 ```java
-// Main
 Account peterAcccount = new Account(  );
 Account bobsAccount = new Account("12345", 0.00, "Bob Brown", "myemail@bob.com", " 1234567");
 System.out.println(bobsAccount.getCustomerName());
+```
 
-// Account class
+* Account osztály
+
+```java
+
 public class Account {
     private String number;
     private double balance;
@@ -624,19 +629,19 @@ public class Account {
 
 ### Több rétegű osztályok
 
-Ha az adott ostályban nem találja a metodust akkor mindig **elkezd fentebbi szinteken keresni**. Tehát ha `dog`-ban nem talál `chew` akkor az `animal`-ba keres, ha ott sem talál akkor a `java fő osztályát` nézi ha ott sem talál akkor **error**
+* Main
 
 ```java
-// Main
 Animal animal = new Animal( 1,1,5,5,"Animal" );
 Dog dog = new Dog(8,20, "Yorkie", 2, 4, 1, 20, "Brown");
 dog.eat(); // alsó class használja a felső class metódusát
+```
 
-// Animal - felsöbb class / super class
+* Animal - felsöbb class / **super class**
 
-// Az állatok egy full globális csoport, beletartoznak madarak, pókok, kutyák.
-// Globális csoportba csak azok kerülnek amik MINDEGYIKNEK vannak
+Az állatok egy full globális csoport, beletartoznak madarak, pókok, kutyák. Globális csoportba csak azok kerülnek amik **MINDEGYIKNEK vannak**
 
+```java
 public class Animal {
     private int brain;
     private int body;
@@ -657,12 +662,13 @@ public class Animal {
         System.out.println("Animal.eat() called");
     }
 }
+```
 
-// Dog - alsóbb class
+* Dog - alsóbb class
 
-// Az állatok globális csoport egyik alcsoportja
-// Mivel a kutya az egy állat ezért az állatcsoportban készített .eat() metódust és társait tudja használni
+Az állatok globális csoport egyik alcsoportja. Mivel a kutya az egy állat ezért az állatcsoportban készített .eat() metódust és társait tudja használni
 
+```java
 public class Dog extends Animal { // <-- felső class beállítása
 
     private int eyes;
@@ -681,12 +687,12 @@ public class Dog extends Animal { // <-- felső class beállítása
         this.coat = coat;
     }
 
-    // felső class újraírása
-    // pl ha a kutyák máskép esznek mint más állatok
-
     private void chew () {
         System.out.println("Dog.chew() called");
     }
+
+    // felső class újraírása
+    // pl ha a kutyák máskép esznek mint más állatok
 
     @Override
     public void eat () {
@@ -697,3 +703,5 @@ public class Dog extends Animal { // <-- felső class beállítása
 }
 
 ```
+
+Ha az adott ostályban nem találja a metodust akkor mindig **elkezd fentebbi szinteken keresni**. Tehát ha `dog`-ban nem talál `chew` akkor az `animal`-ba keres, ha ott sem talál akkor a `java fő osztályát` nézi ha ott sem talál akkor **error**

@@ -21,6 +21,7 @@ discord = #738adb
 
 [settings]
 screenchange-reload = true
+dpi = 96
 
 [global/wm]
 margin-top = 0
@@ -30,8 +31,8 @@ margin-bottom = 0
 ##################                    BARS                     #################
 ################################################################################
 
-[bar/hdmi]
-monitor = ${env:MONITOR:HDMI-1}
+[bar/HDMI-1]
+monitor = ${env:MONITOR:}
 monitor-strict = true
 override-redirect = false
 bottom = false
@@ -68,9 +69,9 @@ font-3 = "Font Awesome 5 Free:style=Regular:pixelsize=8;1"
 font-4 = "Font Awesome 5 Free:style=Solid:pixelsize=8;1"
 font-5 = "Font Awesome 5 Brands:pixelsize=8;1"
 
-modules-left = github arrow1
+modules-left = github arrow1 ewmh
 modules-center =
-modules-right = arrow2 networkspeedup networkspeeddown arrow3 cpu arrow4 memory arrow5 pamac-manager arrow6 date
+modules-right = arrow2 eth arrow3 cpu arrow4 memory arrow5 pamac-manager arrow6 date
 
 separator =
 
@@ -79,8 +80,8 @@ cursor-scroll = ns-resize
 
 ################################################################################
 
-[bar/dvi]
-monitor = ${env:MONITOR:DVI-I-0}
+[bar/DVI-I-0]
+monitor = ${env:MONITOR:}
 monitor-strict = true
 override-redirect = false
 bottom = false
@@ -101,8 +102,8 @@ line-color = ${colors.foreground}
 border-size = 0
 border-color = ${colors.background}
 
-padding-left = 1
-padding-right = 1
+padding-left = 0
+padding-right = 0
 
 module-margin-left = 0
 module-margin-right = 0
@@ -213,104 +214,89 @@ content-background = ${colors.discord}
 ################                    MODULES                     ################
 ################################################################################
 
+############################# CPU
+
 [module/cpu]
-;https://github.com/jaagr/polybar/wiki/Module:-cpu
 type = internal/cpu
+
 interval = 1
 
+label = %percentage:1%%
+
+format = "   Cpu: <label>"
 format-foreground = ${colors.background}
 format-background = ${colors.yellow}
-format-prefix = "   "
-format-prefix-foreground = ${colors.background}
+format-padding = 2
 
-label-font = 1
-format = <label>
-label = Cpu: %percentage:1%%
-
-################################################################################
+############################# MEMORY
 
 [module/memory]
-;https://github.com/jaagr/polybar/wiki/Module:-memory
 type = internal/memory
+
 interval = 1
 
 label = %percentage_used%%
 
-format = Mem: <label>
-format-prefix = "   "
-format-prefix-foreground = ${colors.background}
+format = "   Mem: <label>"
 format-foreground = ${colors.background}
 format-background = ${colors.green}
+format-padding = 2
 
-################################################################################
+############################# NETWORK
 
-[module/networkspeedup]
-;https://github.com/jaagr/polybar/wiki/Module:-network
+[module/eth]
 type = internal/network
+
 interface = enp3s0
 
-label-connected = "%upspeed:7%  |  "
+label-connected = "  %upspeed:7%  |     %downspeed:7%"
 format-connected = <label-connected>
-format-connected-prefix = "   "
-format-connected-prefix-foreground = ${colors.background}
 format-connected-foreground = ${colors.background}
 format-connected-background = ${colors.red}
+format-connected-padding = 2
 
-[module/networkspeeddown]
-;https://github.com/jaagr/polybar/wiki/Module:-network
-type = internal/network
-interface = enp3s0
+label-disconnected = "   check eth connection"
+format-disconnected = <label-disconnected>
+format-disconnected-foreground = ${colors.background}
+format-disconnected-background = ${colors.red}
+format-disconnected-padding = 3
 
-label-connected = "%downspeed:7%"
-format-connected = <label-connected>
-format-connected-prefix = "   "
-format-connected-prefix-foreground = ${colors.background}
-format-connected-foreground = ${colors.background}
-format-connected-background = ${colors.red}
-
-################################################################################
+############################# DATE
 
 [module/date]
-;https://github.com/jaagr/polybar/wiki/Module:-date
 type = internal/date
+
 interval = 1
 
-date = "%d-%m-%Y%"
-date-alt = " %Y-%m-%d"
-
+date = "%A %d %B"
 time = %H:%M
-time-alt = %H:%M:%S
 
-format-prefix = "   "
-format-prefix-foreground = ${colors.background}
+label = "   %date%     %time%"
 format-foreground = ${colors.background}
 format-background = ${colors.blue}
-format-padding = 2
-label = %date% | %time%
+format-padding = 3
 
-################################################################################
+############################# GITHUB
 
 [module/github]
-;https://github.com/jaagr/polybar/wiki/Module:-github
 type = internal/github
-interval = 60
-tail = true
 
 token = ${file:~/.config/polybar/github.token}
 
 empty-notifications = true
-format-prefix = "   "
-format-prefix-foreground = ${colors.background}
+interval = 60
+tail = true
+
+label = "   %notifications%"
 format-foreground = ${colors.background}
 format-background = ${colors.blue}
-format-padding = 2
-label = %notifications%
+format-padding = 3
 
-################################################################################
+############################# SPOTIFY
 
 [module/spotify]
-;https://github.com/NicholasFeldman/dotfiles/blob/master/polybar/.config/polybar/spotify.sh
 type = custom/script
+
 exec = ~/.config/polybar/scripts/spotify.sh
 interval = 1
 
@@ -320,72 +306,73 @@ click-right = dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org
 scroll-up = dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Play
 scroll-down = dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Pause
 
+label = "   %output:0:150%"
 format-foreground = ${colors.background}
 format-background = ${colors.green}
-format-padding = 2
-format-prefix-foreground = ${colors.background}
-format-prefix = "   "
-label = %output:0:150%
+format-padding = 3
 
-################################################################################
+############################# DISCORD
 
 [module/discord]
 type = custom/script
-exec = echo " Discord "
-interval = 100000
+
+exec = echo " ﭮ  Discord "
+
 click-left = discord &
-click-right = killall Discord & killall Discord &
-tail = true
+click-right = killall Discord &
 
 format-foreground = ${colors.background}
 format-background = ${colors.discord}
-format-padding = 1
-format-prefix-foreground = ${colors.background}
-format-prefix = " ﭮ  "
+format-padding = 2
 
-################################################################################
+############################# CHROMIUM
 
 [module/chromium]
 type = custom/script
-exec = echo " Chromium "
-interval = 100000
+
+exec = echo "   Chromium "
+
 click-left = chromium &
+click-right = killall chromium &
 
 format-foreground = ${colors.background}
 format-background = ${colors.red}
-format-padding = 1
-format-prefix-foreground = ${colors.background}
-format-prefix = "   "
+format-padding = 2
 
-################################################################################
+############################# VOLUME
 
 [module/volume]
 type = custom/script
-tail = true
-label = %output%
-exec = ~/.config/polybar/scripts/pavolume.sh --listen
 
-click-right = exec pavucontrol
+exec = ~/.config/polybar/scripts/pavolume.sh --listen
+tail = true
+
 click-left = ~/.config/polybar/scripts/pavolume.sh --togmute
+click-right = exec pavucontrol
 
 scroll-up = ~/.config/polybar/scripts/pavolume.sh --up
 scroll-down = ~/.config/polybar/scripts/pavolume.sh --down
 
+
+label = %output%
 format-foreground = ${colors.background}
 format-background = ${colors.yellow}
+format-padding = 2
 
-################################################################################
+############################# PACMAN
 
 [module/pamac-manager]
 type = custom/script
+
 exec = pamac checkupdates -q | wc -l
 interval = 60
-label = Upd: %output%
 tail = true
+
+click-left = pamac-manager &
+
+label = "   Upd: %output%"
 format-foreground = ${colors.background}
 format-background = ${colors.purple}
-format-prefix-foreground = ${colors.background}
-click-left = pamac-manager &
-format-prefix = "   "
+format-padding = 2
 
-################################################################################
+############################# 
