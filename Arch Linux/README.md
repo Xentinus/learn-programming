@@ -190,24 +190,30 @@ $ pacman -S xfce4 xfce4-goodies
 ### Login Manager telepítése
 
 ```bash
-$ pacman -S lightdm lightdm-webkit-theme-litarvan
+$ pacman -S lightdm
+$ yay lightdm-webkit2-theme-material2
 $ systemctl enable lightdm
 $ localectl set-x11-keymap hu
 ```
+
+#### Login Manager beállítása
+
+> A fájlok elérhetők az `src` mappában!
 
 `nano /etc/lightdm/lightdm.conf` -al megkeresni és átírni:
 
 ```bash
 greeter-session=lightdm-webkit2-greeter
+display-setup-script=/usr/bin/dualmon.sh
 ```
 
 `nano /etc/lightdm/lightdm-webkit2-greeter.conf` -al megkeresni és átírni
 
 ```bash
-webkit-theme=litarvan
+webkit_theme      = material2
+logo              = /usr/share/pixmaps/xentinus.png
+user_image        = /usr/share/pixmaps/xentinus.png
 ```
-
-Késöbb érdemes letölteni a legfrissebb verziót [innen](https://github.com/Litarvan/lightdm-webkit-theme-litarvan).
 
 ### Microcode telepítése
 

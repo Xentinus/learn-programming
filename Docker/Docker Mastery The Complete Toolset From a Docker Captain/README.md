@@ -4,7 +4,7 @@
 
 ### Container: Létrehozás
 
-> Dokumentáció: [Container Létrehozás](https://docs.docker.com/engine/reference/commandline/run/))
+> Dokumentáció: [Container Létrehozás](https://docs.docker.com/engine/reference/commandline/run/)
 
 * local:távoli port nyítása: `-p 3306:3306`
 * env variables: `-e MYSQL_RANDOM_ROOT_PASSWORD=yes`
@@ -91,7 +91,7 @@ $ docker container stats
 Új Container esetén, csak addig megy a container míg be nem írjuk az `exit`-et
 
 ```bash
-$ docker cotnainer run -it mysql bash
+$ docker container run -it mysql bash
 ```
 
 Jelenleg futó container esetén az `image` alapján csinál még egy containert az adott időre csak
