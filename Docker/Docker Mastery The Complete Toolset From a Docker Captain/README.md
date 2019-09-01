@@ -1,5 +1,26 @@
 # Docker Mastery The Complete Toolset From a Docker Captain
 
+## Docker
+
+### Docker: Segítség
+
+```bash
+$ docker --help
+```
+
+### Docker: Bejelentkezés és kijelentkezés
+
+```bash
+$ docker login
+$ docker logout
+```
+
+### Docker: Docker CONF file
+
+```bash
+$ cat .docker/config.json
+```
+
 ## Docker Container
 
 ### Container: Létrehozás
@@ -64,23 +85,21 @@ $ docker container logs NAME
 $ docker logs
 ```
 
-### Container: Adatok megtekintése
+### Container: Process lista megjelenítése egy containerben
 
 > Dokumentáció: [Container](https://docs.docker.com/engine/reference/commandline/container/)
-
-Process lista megjelenítése egy containerben
 
 ```bash
 $ docker container top NAME
 ```
 
-Container configjának megjelenítése `JSON`-ben
+### Container: Container METADATA JSON
 
 ```bash
 $ docker container inspect NAME
 ```
 
-Teljesítmény adatok minden containerhez
+### Container: Teljesítmény adatok megtekíntése
 
 ```bash
 $ docker container stats
@@ -151,7 +170,7 @@ $ docker cotnainer run --net NETWORK
 $ docker network disconnect NETWORK CONTAINER
 ```
 
-### Network: Vízsgálás
+### Network: Network METADATA JSON
 
 > Dokumentáció: [Network megvízsgálása](https://docs.docker.com/engine/reference/commandline/network_inspect/)
 
@@ -165,4 +184,61 @@ $ docker network inspect
 
 ```bash
 $ docker network ls
+```
+
+## Docker Image
+
+[Docker Hub](https://hub.docker.com/)
+
+### Image: Letöltés
+
+```bash
+$ docker pull NAME:TAG
+```
+
+### Image: Image-k listázása
+
+```bash
+$ docker image ls
+```
+
+### Image: Image változások megtekíntése
+
+```bash
+$ docker history NAME:TAG
+```
+
+### Image: Image METADATA JSON
+
+```bash
+$ docker image inspect NAME
+```
+
+### Image: TAG készítés
+
+> Az alap tag a `latest`
+
+```bash
+$ docker image tag IMAGE:tag TARGET-IMAGE:TAG
+```
+
+### Image: Feltöltés
+
+> Be kell jelentkezni elötte a `docker login`-al
+>> Ha privát repot kell, akkor elöbb online el kell készíteni a Hub-on
+
+```bash
+$ docker image push IMAGE:tag
+```
+
+## Docker File
+
+Docker fájl legelején kell lennie a legkevésbé változó dolgoknak és csak a legvégén szabad lennie a nagy fájl változásoknak. Igy a Built idő gyorsabb a cachek használata miatt.
+
+> Miután valami vátlozott onnantól kezdve **nem használ cachet**!
+
+### Docker File: Build
+
+```bash
+$ docker image built -t NAME .
 ```
