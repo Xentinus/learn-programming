@@ -5,7 +5,7 @@
 ### Docker: Segítség
 
 ```bash
-$ docker --help
+--help
 ```
 
 ### Docker: Bejelentkezés és kijelentkezés
@@ -85,6 +85,12 @@ $ docker container logs NAME
 $ docker logs
 ```
 
+A folyamatos nézéshez `-f` et kell használni
+
+```bash
+$ docker container logs -f psql
+```
+
 ### Container: Process lista megjelenítése egy containerben
 
 > Dokumentáció: [Container](https://docs.docker.com/engine/reference/commandline/container/)
@@ -93,7 +99,7 @@ $ docker logs
 $ docker container top NAME
 ```
 
-### Container: Container METADATA JSON
+### Container: METADATA JSON
 
 ```bash
 $ docker container inspect NAME
@@ -170,7 +176,7 @@ $ docker cotnainer run --net NETWORK
 $ docker network disconnect NETWORK CONTAINER
 ```
 
-### Network: Network METADATA JSON
+### Network: METADATA JSON
 
 > Dokumentáció: [Network megvízsgálása](https://docs.docker.com/engine/reference/commandline/network_inspect/)
 
@@ -208,7 +214,7 @@ $ docker image ls
 $ docker history NAME:TAG
 ```
 
-### Image: Image METADATA JSON
+### Image: METADATA JSON
 
 ```bash
 $ docker image inspect NAME
@@ -231,6 +237,12 @@ $ docker image tag IMAGE:tag TARGET-IMAGE:TAG
 $ docker image push IMAGE:tag
 ```
 
+### Image: Minden Image törlése
+
+```bash
+$ docker image prune -a
+```
+
 ## Docker File
 
 Docker fájl legelején kell lennie a legkevésbé változó dolgoknak és csak a legvégén szabad lennie a nagy fájl változásoknak. Igy a Built idő gyorsabb a cachek használata miatt.
@@ -242,3 +254,62 @@ Docker fájl legelején kell lennie a legkevésbé változó dolgoknak és csak 
 ```bash
 $ docker image built -t NAME .
 ```
+
+### Docker File: FROM
+
+Az alapja az egésznek. Általában linux distrot szoktak használni!
+
+```docker
+$ FROM nginx:latest
+```
+
+### Docker File: WORKDIR
+
+Olyan mint ha be cd-znéd az útvonalat oda ahol a programnak dolgoznia kell
+
+```docker
+$ WORKDIR /usr/share/nginx/html
+```
+
+### Docker File: COPY
+
+```docker
+$ COPY index.html index.html
+```
+
+### Docker File: EXPOSE
+
+Port nyítás
+
+```docker
+$ EXPOSE 3000
+```
+
+## Docker Volumes
+
+### Volumes: Tárhelyek megtekíntése
+
+```bash
+$ docker volume ls
+```
+
+### Volumes: Elnevezett tárhelyek
+
+Készítéskor `-v mysql-db:/var/lib/mysql`
+
+```bash
+$ docker container run -d --name mysql -v mysql-db:/var/lib/mysql mysql
+```
+
+### Volumes: Jelenlegi tárhelyhez mappolás
+
+Úgyan az mintha elneveznénk csak `-v` után az útvonalat kell megadni
+
+> Ha az adott mappába szeretnénk bindolni akkor `$(pwd):/usr/share/nginx/html` is megfelelő
+
+```bash
+$ docker container run -d --name mysql -v /Users/bret/stuff:/path/container
+$ docker container run -d --name mysql -v //c/Users/bret/stuff:/path/container
+```
+
+> Nem lehet Bindolni Dockerfile-ban!
