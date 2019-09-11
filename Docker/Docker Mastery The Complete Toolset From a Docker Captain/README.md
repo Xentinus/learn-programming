@@ -313,3 +313,41 @@ $ docker container run -d --name mysql -v //c/Users/bret/stuff:/path/container
 ```
 
 > Nem lehet Bindolni Dockerfile-ban!
+
+## Docker Compose
+
+`docker-compose.yml` be mentjük a beállításokat
+
+```YML
+version: '3.1' # if no version is specified then v1 is assumed. Recommended v2
+
+services: # containers. same as docker run
+  servicename: # a friendly name. this is also DNS name inside network
+    image: # Optional if you use build:
+    command: # Optional, replace the default CMD specified by the image
+    environment: # Optional, same as -e in docker run
+    voluems: # Optional, same as -v in docker run
+  servicename2:
+
+volumes: # Optional, same as docker volume create
+
+networks: # Optional, same as docker network create
+```
+
+### Compose: Elindítás
+
+Beállít mindent ahogy a `docker-compose.yml-ben található
+
+```bash
+$ docker-compose up
+```
+
+### Compose: Leállítás
+
+Kitöröl mindent ami használva volt
+
+```bash
+$ docker-compose down
+```
+
+> Ha volume-t is el kell távolítani akkor `-v` -t kell használni
