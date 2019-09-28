@@ -69,7 +69,7 @@ font-3 = "Font Awesome 5 Free:style=Regular:pixelsize=8;1"
 font-4 = "Font Awesome 5 Free:style=Solid:pixelsize=8;1"
 font-5 = "Font Awesome 5 Brands:pixelsize=8;1"
 
-modules-left = github arrow1 ewmh
+modules-left = github arrow1
 modules-center =
 modules-right = arrow2 eth arrow3 cpu arrow4 memory arrow5 pamac-manager arrow6 date
 
@@ -135,80 +135,6 @@ separator =
 
 cursor-click = pointer
 cursor-scroll = ns-resize
-
-################################################################################
-#################                    ARROWS                     ################
-################################################################################
-
-[module/arrow1]
-type = custom/text
-content = "%{T3} %{T-}"
-content-font = 2
-content-foreground = ${colors.blue}
-content-background = ${colors.background}
-
-[module/arrow2]
-type = custom/text
-content = "%{T3} %{T-}"
-content-font = 2
-content-foreground = ${colors.red}
-content-background = ${colors.background}
-
-[module/arrow3]
-type = custom/text
-content = "%{T3} %{T-}"
-content-font = 2
-content-foreground = ${colors.yellow}
-content-background = ${colors.red}
-
-[module/arrow4]
-type = custom/text
-content = "%{T3} %{T-}"
-content-font = 2
-content-foreground = ${colors.green}
-content-background = ${colors.yellow}
-
-[module/arrow5]
-type = custom/text
-content = "%{T3} %{T-}"
-content-font = 2
-content-foreground = ${colors.purple}
-content-background = ${colors.green}
-
-[module/arrow6]
-type = custom/text
-content = "%{T3} %{T-}"
-content-font = 2
-content-foreground = ${colors.blue}
-content-background = ${colors.purple}
-
-[module/arrow7]
-type = custom/text
-content = "%{T3} %{T-}"
-content-font = 2
-content-foreground = ${colors.green}
-content-background = ${colors.yellow}
-
-[module/arrow8]
-type = custom/text
-content = "%{T3} %{T-}"
-content-font = 2
-content-foreground = ${colors.yellow}
-content-background = ${colors.background}
-
-[module/arrow9]
-type = custom/text
-content = "%{T3} %{T-}"
-content-font = 2
-content-foreground = ${colors.discord}
-content-background = ${colors.background}
-
-[module/arrow10]
-type = custom/text
-content = "%{T3} %{T-}"
-content-font = 2
-content-foreground = ${colors.red}
-content-background = ${colors.discord}
 
 ################################################################################
 ################                    MODULES                     ################
@@ -375,4 +301,76 @@ format-foreground = ${colors.background}
 format-background = ${colors.purple}
 format-padding = 2
 
-############################# 
+################################################################################
+#################                    ARROWS                     ################
+################################################################################
+
+[module/arrow1]
+type = custom/text
+content = "%{T3} %{T-}"
+content-font = 2
+content-foreground = ${colors.blue}
+content-background = ${colors.background}
+
+[module/arrow2]
+type = custom/text
+content = "%{T3} %{T-}"
+content-font = 2
+content-foreground = ${colors.red}
+content-background = ${colors.background}
+
+[module/arrow3]
+type = custom/text
+content = "%{T3} %{T-}"
+content-font = 2
+content-foreground = ${colors.yellow}
+content-background = ${colors.red}
+
+[module/arrow4]
+type = custom/text
+content = "%{T3} %{T-}"
+content-font = 2
+content-foreground = ${colors.green}
+content-background = ${colors.yellow}
+
+[module/arrow5]
+type = custom/text
+content = "%{T3} %{T-}"
+content-font = 2
+content-foreground = ${colors.purple}
+content-background = ${colors.green}
+
+[module/arrow6]
+type = custom/text
+content = "%{T3} %{T-}"
+content-font = 2
+content-foreground = ${colors.blue}
+content-background = ${colors.purple}
+
+[module/arrow7]
+type = custom/text
+content = "%{T3} %{T-}"
+content-font = 2
+content-foreground = ${colors.green}
+content-background = ${colors.yellow}
+
+[module/arrow8]
+type = custom/text
+content = "%{T3} %{T-}"
+content-font = 2
+content-foreground = ${colors.yellow}
+content-background = ${colors.background}
+
+[module/arrow9]
+type = custom/text
+content = "%{T3} %{T-}"
+content-font = 2
+content-foreground = ${colors.discord}
+content-background = ${colors.background}
+
+[module/arrow10]
+type = custom/text
+content = "%{T3} %{T-}"
+content-font = 2
+content-foreground = ${colors.red}
+content-background = ${colors.discord}
