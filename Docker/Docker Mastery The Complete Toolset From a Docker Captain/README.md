@@ -2,6 +2,12 @@
 
 ## Docker
 
+### Docker: Információk
+
+```bash
+$ docker info
+```
+
 ### Docker: Segítség
 
 ```bash
@@ -49,7 +55,7 @@ $ docker container run --rm -d -p 3306:3306 --name db -e MYSQL_RANDOM_ROOT_PASSW
 `CONTAINER_ID`-ba elég ha csak az első pár számot írjuk ami unique
 
 ```bash
-$ docker container rm CONTAINER_ID
+$ docker container rm <CONTAINER_ID>
 ```
 
 > Futó containereket **nem lehet törölni**! Ahhoz használni kell: `-f`
@@ -72,8 +78,8 @@ $ docker ps
 > Dokumentáció: [Container Elindítása](https://docs.docker.com/engine/reference/commandline/start/) és [Container Leállítása](https://docs.docker.com/engine/reference/commandline/stop/)
 
 ```bash
-$ docker container start NAME
-$ dokcer container stop NAME
+$ docker container start <NAME>
+$ dokcer container stop <NAME>
 ```
 
 ### Container: Logok megjelenítése
@@ -81,7 +87,7 @@ $ dokcer container stop NAME
 > Dokumentáció: [Container Logok](https://docs.docker.com/engine/reference/commandline/logs/)
 
 ```bash
-$ docker container logs NAME
+$ docker container logs <NAME>
 $ docker logs
 ```
 
@@ -96,13 +102,13 @@ $ docker container logs -f psql
 > Dokumentáció: [Container](https://docs.docker.com/engine/reference/commandline/container/)
 
 ```bash
-$ docker container top NAME
+$ docker container top <NAME>
 ```
 
 ### Container: METADATA JSON
 
 ```bash
-$ docker container inspect NAME
+$ docker container inspect <NAME>
 ```
 
 ### Container: Teljesítmény adatok megtekíntése
@@ -138,7 +144,7 @@ Portnyítás nélkül is tudnak kommunikálni egymással a dolgok! Csak úgyan a
 ### Container: Portok megtekintése
 
 ```bash
-$ docker container port NAME
+$ docker container port <NAME>
 ```
 
 ### Network: Létrehozás
@@ -148,7 +154,7 @@ $ docker container port NAME
 Default driver: **bridge**
 
 ```bash
-$ docker network create NAME
+$ docker network create <NAME>
 ```
 
 ### Network: Törlés
@@ -156,7 +162,7 @@ $ docker network create NAME
 > Dokumentáció: [Network Törlés](https://docs.docker.com/engine/reference/commandline/network_rm/)
 
 ```bash
-$ docker network rm NAME
+$ docker network rm <NAME>
 ```
 
 ### Network: Hozzáadás egy containerhez
@@ -164,8 +170,8 @@ $ docker network rm NAME
 > Dokumentáció: [Network-höz csatlakoztatás](https://docs.docker.com/engine/reference/commandline/network_connect/)
 
 ```bash
-$ docker network connect NETWORK CONTAINER
-$ docker cotnainer run --net NETWORK
+$ docker network connect <NETWORK> <CONTAINER>
+$ docker cotnainer run --net <NETWORK>
 ```
 
 ### Network: Eltávolítása egy containerből
@@ -173,7 +179,7 @@ $ docker cotnainer run --net NETWORK
 > Dokumentáció: [Network-ből eltávolítás](https://docs.docker.com/engine/reference/commandline/network_disconnect/)
 
 ```bash
-$ docker network disconnect NETWORK CONTAINER
+$ docker network disconnect <NETWORK> <CONTAINER>
 ```
 
 ### Network: METADATA JSON
@@ -199,7 +205,7 @@ $ docker network ls
 ### Image: Letöltés
 
 ```bash
-$ docker pull NAME:TAG
+$ docker pull <NAME>:<TAG>
 ```
 
 ### Image: Image-k listázása
@@ -211,13 +217,13 @@ $ docker image ls
 ### Image: Image változások megtekíntése
 
 ```bash
-$ docker history NAME:TAG
+$ docker history <NAME>:<TAG>
 ```
 
 ### Image: METADATA JSON
 
 ```bash
-$ docker image inspect NAME
+$ docker image inspect <NAME>
 ```
 
 ### Image: TAG készítés
@@ -225,7 +231,7 @@ $ docker image inspect NAME
 > Az alap tag a `latest`
 
 ```bash
-$ docker image tag IMAGE:tag TARGET-IMAGE:TAG
+$ docker image tag <IMAGE>:<TAG> <TARGET-IMAGE>:<TAG>
 ```
 
 ### Image: Feltöltés
@@ -234,7 +240,7 @@ $ docker image tag IMAGE:tag TARGET-IMAGE:TAG
 >> Ha privát repot kell, akkor elöbb online el kell készíteni a Hub-on
 
 ```bash
-$ docker image push IMAGE:tag
+$ docker image push <IMAGE>:<TAG>
 ```
 
 ### Image: Minden Image törlése
@@ -252,7 +258,7 @@ Docker fájl legelején kell lennie a legkevésbé változó dolgoknak és csak 
 ### Docker File: Build
 
 ```bash
-$ docker image built -t NAME .
+$ docker image built -t <NAME> .
 ```
 
 ### Docker File: FROM
@@ -346,8 +352,152 @@ $ docker-compose up
 
 Kitöröl mindent ami használva volt
 
+> Ha volume-t is el kell távolítani akkor `-v` -t kell használni
+
 ```bash
 $ docker-compose down
 ```
 
-> Ha volume-t is el kell távolítani akkor `-v` -t kell használni
+## Docker Swarm
+
+### Swarm: Bekapcsolás
+
+Alapjáraton a Swarm **inaktív**!
+
+> Meglehet nézni a `docker info` parancsal
+
+```bash
+$ docker swarm init
+```
+
+### Swarm: Node-k listázása
+
+```bash
+$ docker node ls
+```
+
+## Docker Swarm: Service
+
+Replicas: <MENNYI_MEGY>/<MENNYINEK_KELL_MENNIE>
+
+### Service: Listázás
+
+```bash
+$ docker service ls
+```
+
+### Service: Létrehozás
+
+```bash
+$ docker service create --name <NAME> --network <NETWORK_NAME> -e POSTGRES_PASSWORD=mypass postgres
+```
+
+### Service: Törlés
+
+```bash
+$ docker service rm <NAME>
+```
+
+### Service: Információk megjelenítése
+
+```bash
+$ docker service ps <NAME>
+```
+
+### Service: Scalelés
+
+```bash
+$ docker service update <ID> --replicas <NUMBER>
+```
+
+## Több Node Swarm
+
+### Multi Swarm: Hozzáadás egyhez
+
+Amikor legenerálod az első swarmot a végén kiadja a `docker swarm join`os parancsot. Azt kell hozzáadni a többihez.
+
+> Amelyikkel elkészíted a swarm-ot az lesz a leader a többi pedig worker lesz
+
+```bash
+$ docker swarm join --token SWMTKN-1-48haz60c0iopbs9eeviji0nv1b7pccl0e5te8g0r02n3i7zkz9-5ozpholp0lpi7meqxpa9f2ac7 192.168.0.68:2377
+```
+
+Ha késöbbiekben újra kellene a token
+
+```bash
+$ docker swarm join-token manager
+```
+
+### Multi Swarm: Role állítás
+
+Alapjáraton a Workerek nemtudnak belenyulni a Swarm-ba, ehhez role-t kell változtatni
+
+> Elérhető role-k: manager, worker
+
+```bash
+$ docker node update --role manager <NODE_NAME>
+```
+
+### Swarm: Network készítés
+
+```bash
+$ docker network create --driver overlay <NAME>
+```
+
+## Docker Stacks
+
+### Stack: Deploy
+
+```bash
+$ docker stack deploy -c <FILE> <NAME>
+```
+
+### Stack: Stackek listázása
+
+```bash
+$ docker stack ls
+```
+
+### Stack: Stack taskok megtekintése
+
+```bash
+$ docker stack ps <NAME>
+```
+
+### Stack: Servicek listázása
+
+Olyat amilyet a `docker service ls` csinál
+
+```bash
+$ docker stack services <NAME>
+```
+
+### Stack: YML frissítés
+
+Újra deployolni kell! Docker felismeri és elkezdi updatelni a service-eket.
+
+> Úgyan az legyen a neve és társai
+
+```bash
+$ docker stack deploy -c <FILE> <NAME>
+```
+
+### Stack: Secrets készítése
+
+#### Secrets készítése fájlal
+
+```bash
+$ docker secret create <NAME> <FILE>
+```
+
+#### Secrets készítése paranccsal
+
+```bash
+$ echo "myDBpassWORD" | docker secret create psql_pass -
+```
+
+### Stack: Secrets használata
+
+```bash
+$ docker secret create --name psql --secret psql_user --secret psql_pass -e POSTGRES_PASSWORD_FILE=/run/secrets/psql_pass -e POSTGRES_USER_FILE=/run/secrets/psql_user postgres
+```
