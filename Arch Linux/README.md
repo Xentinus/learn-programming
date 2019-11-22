@@ -42,7 +42,7 @@ $ mkfs.ext4 /dev/sda1
 
 ```bash
 $ mkswap /dev/sda2
-$ swapon /dev/sd2
+$ swapon /dev/sda2
 ```
 
 ## Telepítés
@@ -187,11 +187,24 @@ $ pacman -S nvidia nvidia-utils
 $ pacman -S xfce4 xfce4-goodies
 ```
 
+### AUR programok eléréséhez
+
+*Késöbb törölni kell a `yay` mappát a `HOME`-ból*
+
+```bash
+$ pacman -S git
+$ git clone https://aur.archlinux.org/yay.git
+$ cd yay
+$ makepkg -si
+```
+
 ### Login Manager telepítése
+
+*Litarvan's LightDM Theme 3.0.0 [letöltése](https://github.com/Litarvan/lightdm-webkit-theme-litarvan)*
 
 ```bash
 $ pacman -S lightdm
-$ yay lightdm-webkit2-theme-material2
+$ yay lightdm-webkit-theme-litarvan
 $ systemctl enable lightdm
 $ localectl set-x11-keymap hu
 ```
@@ -200,17 +213,17 @@ $ localectl set-x11-keymap hu
 
 > A fájlok elérhetők az `src` mappában!
 
-`nano /etc/lightdm/lightdm.conf` -al megkeresni és átírni:
+`$ nano /etc/lightdm/lightdm.conf` -al megkeresni és átírni:
 
 ```bash
 greeter-session=lightdm-webkit2-greeter
 display-setup-script=/usr/bin/dualmon.sh
 ```
 
-`nano /etc/lightdm/lightdm-webkit2-greeter.conf` -al megkeresni és átírni
+`$ nano /etc/lightdm/lightdm-webkit2-greeter.conf` -al megkeresni és átírni
 
 ```bash
-webkit_theme      = material2
+webkit_theme      = litarvan
 logo              = /usr/share/pixmaps/xentinus.png
 user_image        = /usr/share/pixmaps/xentinus.png
 ```
@@ -234,23 +247,6 @@ $ systemctl enable ufw.service
 
 ```bash
 $ pacman -S alsa-utils pulseaudio pavucontrol
-```
-
-### AUR programok eléréséhez
-
-*Késöbb törölni kell a `yay` mappát a `HOME`-ból*
-
-```bash
-$ pacman -S git
-$ git clone https://aur.archlinux.org/yay.git
-$ cd yay
-$ makepkg -si
-```
-
-### Mongo adatbázis beállítása
-
-```bash
-$ systemctl enable mongodb.service
 ```
 
 ### NTFS partíció támogatása
@@ -316,22 +312,21 @@ Mentés, majd `$ grub-mkconfig -o /boot/grub/grub.cfg` futtatása
 | vlc | Alap |
 | teamspeak3 | Alap |
 | qbittorrent | Alap |
-| p7zip | Alap |
-| unrar | Alap |
-| unzip | Alap |
-| xarchiver | Alap |
 | discord | **AUR** |
 | pamac-aur | **AUR** |
 | spotify | **AUR** |
-| p7zip-gui | **AUR** |
+| spotify-adblock-git | **AUR** |
 
 #### Developper alkalmazások
 
 | Csomag neve | Csomag típusa |
 | --- | --- |
-| intellij-idea-community-edition | Alap |
 | nodejs | Alap |
 | npm | Alap |
+| Docker | Alap |
+| docker-compose | Alap |
+| docker-machine | Alap |
+| speedtest-cli | Alap |
 | gnome-disk-utility | Alap |
 | visual-studio-code-bin | **AUR** |
 | postman-bin | **AUR** |
@@ -343,7 +338,7 @@ Mentés, majd `$ grub-mkconfig -o /boot/grub/grub.cfg` futtatása
 | mongodb-tools-bin | **AUR** |
 | mongodb-compass | **AUR** |
 
-#### UI-hoz szükséges alkalmazások
+#### Egyebek
 
 | Csomag neve | Csomag típusa |
 | --- | --- |
@@ -351,12 +346,20 @@ Mentés, majd `$ grub-mkconfig -o /boot/grub/grub.cfg` futtatása
 | arc-gtk-theme | Alap |
 | papirus-icon-theme | Alap |
 | powerline | Alap |
+| Htop | Alap |
+| Seahorse | Alap |
 | adobe-source-code-pro-fonts | Alap |
 | adobe-source-sans-pro-fonts | Alap |
 | ttf-ubuntu-font-family | Alap |
 | bibata-cursor-theme | **AUR** |
 | nerd-fonts-complete | **AUR** |
 | polybar | **AUR** |
+
+### Service-k bekapcsolása
+
+```bash
+$ systemctl enable mongodb.service
+```
 
 ## Beállítások
 
