@@ -12,7 +12,21 @@ Telepítés során alkalmazott billentyűzet beállítása
 $ loadkeys hu
 ```
 
+## Internet tesztelése
+
+ ```bash
+$ ping www.google.hu
+```
+
+## UEFI tesztelése
+
+ ```bash
+$ ls /sys/firmware/efivars
+```
+
 ## Particiók létrehozása
+
+`$ fdisk -l` parancsal megtekinthető, melyik vinyót szeretnénk módosítani
 
 ```bash
 $ cfdisk /dev/sda
@@ -22,20 +36,19 @@ $ cfdisk /dev/sda
 
 **MBR** esetén
 
-* `sda1` 160G linux, root, bootable
-* `sda2` 12G linux-swap
+* `sda1` 8G Linux swap
+* `sda2` 120G linux, root, bootable
 
 **GPT** esetén
 
-* `sda1` 1G boot
-* `sda2` 40G linux, root (legalább 20G)
-* `sda3` 120G home
-* `sda4` 12G linux-swap
+* `sda1` 512M EFI System (boot loader)
+* `sda2` 8G Linux swap
+* `sda3` 120G Linux filesystem
 
-### Fájlrendszeradás a rootnak
+### EFI partició formázása
 
 ```bash
-$ mkfs.ext4 /dev/sda1
+$ mkfs.fat -F32 /dev/sda1
 ```
 
 ### Swap létrehozása és bekapcsolása
@@ -45,58 +58,44 @@ $ mkswap /dev/sda2
 $ swapon /dev/sda2
 ```
 
+### Linux filesystem formázás
+
+```bash
+$ mkfs.ext4 /dev/sda3
+```
+
 ## Telepítés
 
 *Mount ahova telepítesz!*
 
 ```bash
-$ mount /dev/sda1 /mnt
+$ mount /dev/sda3 /mnt
+$ mkdir /mnt/home
+$ mount /dev/sda3 /mnt/home
+
 $ pacstrap -i /mnt base base-devel
-$ genfstab -U /mnt >> /mnt/etc/fstab
+$ genfstab -U -p /mnt >> /mnt/etc/fstab
 $ arch-chroot /mnt /bin/bash
 ```
 
 ### Localizáció
 
-Kikell venni a `#`-et az `en_GB.UTF-8` és `hu_HU.UTF-8` elöl
-
 ```bash
 $ nano /etc/locale.gen
 ```
 
-Megkell várni míg localizál
+Kikell venni a `#`-et az `en_GB.UTF-8` és `hu_HU.UTF-8` elöl, majd localizálás
 
 ```bash
 $ locale-gen
 ```
 
-Majd beállítani a default-ot
-
-```bash
-$ echo LANG=en_GB.UTF-8 > /etc/locale.conf
-$ export LANG=en_GB.UTF8
-```
-
-### Billentyűzet beállítása
-
-```bash
-$ nano /etc/vconsole.conf
-```
-
-Bele kell írni a magyar billentyűzet beállításait
-
-```bash
-KEYMAP=hu
-FONT=lat2-16
-FONT_MAP=8859-2
-```
-
-### Idő beállítása
+### Helyi idő beállítása
 
 ```bash
 $ rm /etc/localtime
 $ ln -s /usr/share/zoneinfo/Europe/Budapest /etc/localtime
-$ hwclock --systohc
+$ hwclock --systohc -utc
 $ timedatectl set-local-rtc 1 --adjust-system-clock
 ```
 
@@ -108,15 +107,10 @@ $ echo Xentinus-Development > /etc/hostname
 
 ### Internet beállítása
 
-```bash
-$ nano /etc/hosts
-```
-
-Majd ezt kell beleírni
+`$ nano /etc/hosts`paranccsal átkell írni
 
 ```bash
-127.0.0.1 localhost.localdomain localhost Xentinus-Development
-::1       localhost.localdomain localhost Xentinus-Development
+127.0.0.1 localhost.localdomain Xentinus-Development
 ```
 
 #### NetworkManager telepítése
@@ -124,12 +118,6 @@ Majd ezt kell beleírni
 ```bash
 $ pacman -S networkmanager
 $ systemctl enable NetworkManager
-```
-
-## Rendszer indítása
-
-```bash
-$ mkinitcpio -p linux
 ```
 
 ### Root jelszó beállítása
@@ -140,17 +128,34 @@ $ passwd
 
 ### Bootloader beállítása
 
-*Ezután újraindul és kérni fogja a root-ot és annak jelszavát*
+```bash
+$ pacman -S grub efibootmgr
+$ mkdir /boot/efi
+$ mount /dev/sda1 /boot/efi
+$ grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot/efi
+$ grub-mkconfig -o /boot/grub/grub.cfg
+$ mkdir /boot/efi/EFI/BOOT
+$ cp /boot/efi/EFI/GRUB/grubx64.efi /boot/efi/EFI/BOOT/BOOTX64.EFI
+```
+
+`$ nano /boot/efi/startup.nsh` al startup leírása
 
 ```bash
-$ pacman -S grub os-prober
-$ grub-install --target=i386-pc --recheck /dev/sda
-$ grub-mkconfig -o /boot/grub/grub.cfg
-$ unmount /dev/sda1
+bcf boot add 1 fs0:\EFI\GRUB\grubx64.efi "My GRUB bootloader"
+exit
+```
+
+## Rendszer újraindítása
+
+```bash
+$ exit
+$ unmount -R /mnt
 $ reboot
 ```
 
-### Felhasználó hozzáadása és jelszóadás
+Bejelentkezés után `root`-ba kell belépni az általunk megadott jelszóval
+
+### Felhasználó hozzáadása
 
 ```bash
 $ useradd -m -g users -G wheel,storage,power -s /bin/bash xentinus
@@ -159,25 +164,32 @@ $ passwd xentinus
 
 ### Sudo bekapcsolása
 
-Megkell keresni a `%wheel ALL=(ALL) ALL`-t és kivenni elöle a `#`-et
+`$ EDITOR=nano visudo` parancs segítségével megkell keresni a `%wheel ALL=(ALL) ALL`-t és kivenni elöle a `#`-et
+
+*Ezután kiléphetünk a root-ból és beléphetünk az általunk készített felhasználóba*
+
+### Billentyűzet beállítása
+
+`$ nano /etc/vconsole.conf` paranccsal beállíthatjuk a magyar billentyűzetünket
 
 ```bash
-$ EDITOR=nano visudo
-```
-
-*Ezután újraindul és kérni fogja a root-ot és annak jelszavát*
-
-```bash
-$ pacman -S bash-completion
-$ reboot
+KEYMAP=hu
+FONT=lat2-16
+FONT_MAP=8859-2
 ```
 
 ## Alkalmazások és egyebek telepítése
 
+### Bash telepítése
+
+```bash
+$ pacman -S bash-completion
+```
+
 ### Videokártya telepítése
 
 ```bash
-$ pacman -S xorg-server xorg-apps xorg-xinit
+$ pacman -S xorg xorg-xinit xorg-server xorg-apps 
 $ pacman -S nvidia nvidia-utils
 ```
 
@@ -185,6 +197,7 @@ $ pacman -S nvidia nvidia-utils
 
 ```bash
 $ pacman -S xfce4 xfce4-goodies
+$ echo "exec startxfce4" > ~/.xinitrc
 ```
 
 ### AUR programok eléréséhez
@@ -287,23 +300,7 @@ UUID=7E54F89654F8527F /mnt/7E54F89654F8527F auto nosuid,nodev,nofail,noauto 0 0
 $ pacman -S gvfs
 ```
 
-### Grub beállítása
-
-`nano /etc/default/grub/` parancs után át kell írni ezeket
-
-```bash
-GRUB_TIMEOUT="0"
-GRUB_HIDDEN_TIMEOUT="0"
-GRUB_FORCE_HIDDEN_MENU="true"
-```
-
-Mentés, majd `$ grub-mkconfig -o /boot/grub/grub.cfg` futtatása
-
-### Telepítésre váró programok
-
-Érdemes az elején letölteni `yay`-el a `pamac-aur`-t és azzal egyszerre telepíteni mindent (elötte beállítani hogy egyszerre csak 1-et töltsön le)
-
-#### Alkalmazások
+#### Alkalmazások telepítése
 
 | Csomag neve | Csomag típusa |
 | --- | --- |
@@ -317,7 +314,7 @@ Mentés, majd `$ grub-mkconfig -o /boot/grub/grub.cfg` futtatása
 | spotify | **AUR** |
 | spotify-adblock-git | **AUR** |
 
-#### Developper alkalmazások
+#### Developper alkalmazások telepítése
 
 | Csomag neve | Csomag típusa |
 | --- | --- |
@@ -338,7 +335,7 @@ Mentés, majd `$ grub-mkconfig -o /boot/grub/grub.cfg` futtatása
 | mongodb-tools-bin | **AUR** |
 | mongodb-compass | **AUR** |
 
-#### Egyebek
+#### Egyebek programok telepítése
 
 | Csomag neve | Csomag típusa |
 | --- | --- |
