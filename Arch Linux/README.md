@@ -9,59 +9,76 @@ Fontosabb linkek:
 Telepítés során alkalmazott billentyűzet beállítása
 
 ```shell
-$ loadkeys hu
+# loadkeys hu
 ```
 
 ## Internet tesztelése
 
  ```bash
-$ ping www.google.hu
+# ifconfig
+# ping -c2 google.com
+```
+
+Ha nincs DHCP szerver akkor be kell állítani egy IP-t
+
+ ```bash
+# ifconfig eno16777736 192.168.1.52 netmask 255.255.255.0 
+# route add default gw 192.168.1.1
+# echo “nameserver 8.8.8.8” >> /etc/resolv.conf
 ```
 
 ## UEFI tesztelése
 
  ```bash
-$ ls /sys/firmware/efivars
+# ls /sys/firmware/efivars
 ```
 
 ## Particiók létrehozása
 
-`$ fdisk -l` parancsal megtekinthető, melyik vinyót szeretnénk módosítani
+`# fdisk -l` parancsal megtekinthető, melyik vinyót szeretnénk módosítani
 
 ```bash
-$ cfdisk /dev/sda
+# cfdisk /dev/sda
 ```
 
-`swap` = **RAM** mennyisége * 1,5
+**GPT** Label Type
 
-**MBR** esetén
-
-* `sda1` 8G Linux swap
-* `sda2` 120G linux, root, bootable
-
-**GPT** esetén
-
-* `sda1` 512M EFI System (boot loader)
-* `sda2` 8G Linux swap
-* `sda3` 120G Linux filesystem
+* `sda1` EFI System, 500M, FAT32
+* `sda2` 8G Linux swap, 2xRAM
+* `sda3` 120G Linux filesystem, 20G+, ext4
 
 ### EFI partició formázása
 
 ```bash
-$ mkfs.fat -F32 /dev/sda1
+# mkfs.fat -F32 /dev/sda1
 ```
 
 ### Swap létrehozása és bekapcsolása
 
 ```bash
-$ mkswap /dev/sda2
-$ swapon /dev/sda2
+# mkswap /dev/sda2
+# swapon /dev/sda2
 ```
 
 ### Linux filesystem formázás
 
 ```bash
-$ mkfs.ext4 /dev/sda3
+# mkfs.ext4 /dev/sda3
+```
+
+### Mountolás
+
+`# mount /dev/sda3 /mnt`
+
+### Mirrlor lista
+
+`# nano /etc/pacman.d/mirrorlist`, legfelülre kell tenni az általunk kivánt szervert.
+
+Emellett az Arch Mutlilib supportot aktíválhatok a `/etc/pacman.conf` fájlban, azzal hogy kiveszed a kommentet.
+
+```bash
+[multilib]
+Include = /etc/pacman.d/mirrorlist
 ```
 
 ## Telepítés
@@ -69,45 +86,38 @@ $ mkfs.ext4 /dev/sda3
 *Mount ahova telepítesz!*
 
 ```bash
-$ mount /dev/sda3 /mnt
-$ mkdir /mnt/home
-$ mount /dev/sda3 /mnt/home
-
-$ pacstrap -i /mnt base base-devel
-$ genfstab -U -p /mnt >> /mnt/etc/fstab
-$ arch-chroot /mnt /bin/bash
+# pacstrap -i /mnt base base-devel linux linux-firmware nano sudo
+# genfstab -U -p /mnt >> /mnt/etc/fstab
+# arch-chroot /mnt /bin/bash
 ```
 
 ### Localizáció
 
-```bash
-$ nano /etc/locale.gen
-```
-
-Kikell venni a `#`-et az `en_GB.UTF-8` és `hu_HU.UTF-8` elöl, majd localizálás
+`# nano /etc/locale.gen` paranccsal kikell venni a `#`-et az `en_GB.UTF-8` és `hu_HU.UTF-8` elöl, majd localizáláshoz végrehajtani a `# locale-gen` paranccsot.
 
 ```bash
-$ locale-gen
+# echo LANG=en_GB.UTF-8 > /etc/locale.conf
+# export LANG=en_GB.UTF-8
 ```
 
 ### Helyi idő beállítása
 
 ```bash
-$ rm /etc/localtime
-$ ln -s /usr/share/zoneinfo/Europe/Budapest /etc/localtime
-$ hwclock --systohc -utc
-$ timedatectl set-local-rtc 1 --adjust-system-clock
+# rm /etc/localtime
+# ln -s /usr/share/zoneinfo/Europe/Budapest /etc/localtime
+# hwclock --systohc --utc
+# timedatectl set-local-rtc 1 --adjust-system-clock
 ```
 
 ### Számítógépnév beállítása
 
 ```bash
-$ echo Xentinus-Development > /etc/hostname
+# echo Xentinus-Development > /etc/hostname
 ```
 
 ### Internet beállítása
 
-`$ nano /etc/hosts`paranccsal átkell írni
+`# nano /etc/hosts`paranccsal átkell írni
 
 ```bash
 127.0.0.1 localhost.localdomain Xentinus-Development
@@ -116,41 +126,32 @@ $ echo Xentinus-Development > /etc/hostname
 #### NetworkManager telepítése
 
 ```bash
-$ pacman -S networkmanager
-$ systemctl enable NetworkManager
+# pacman -S networkmanager
+# systemctl enable NetworkManager
 ```
 
 ### Root jelszó beállítása
 
 ```bash
-$ passwd
+# passwd
 ```
 
 ### Bootloader beállítása
 
 ```bash
-$ pacman -S grub efibootmgr
-$ mkdir /boot/efi
-$ mount /dev/sda1 /boot/efi
-$ grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot/efi
-$ grub-mkconfig -o /boot/grub/grub.cfg
-$ mkdir /boot/efi/EFI/BOOT
-$ cp /boot/efi/EFI/GRUB/grubx64.efi /boot/efi/EFI/BOOT/BOOTX64.EFI
-```
-
-`$ nano /boot/efi/startup.nsh` al startup leírása
-
-```bash
-bcf boot add 1 fs0:\EFI\GRUB\grubx64.efi "My GRUB bootloader"
-exit
+# pacman -S grub efibootmgr dosfstools os-prober mtools
+# mkdir /boot/EFI
+# mount /dev/sda1 /boot/EFI
+# grub-install --target=x86_64-efi  --bootloader-id=Arch-Linux --recheck
+# grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 ## Rendszer újraindítása
 
 ```bash
-$ exit
-$ unmount -R /mnt
-$ reboot
+# exit
+# umount -a
+# telinit 6
 ```
 
 Bejelentkezés után `root`-ba kell belépni az általunk megadott jelszóval
@@ -158,19 +159,19 @@ Bejelentkezés után `root`-ba kell belépni az általunk megadott jelszóval
 ### Felhasználó hozzáadása
 
 ```bash
-$ useradd -m -g users -G wheel,storage,power -s /bin/bash xentinus
-$ passwd xentinus
+# useradd -mg users -G wheel,storage,power -s /bin/bash xentinus
+# passwd xentinus
 ```
 
 ### Sudo bekapcsolása
 
-`$ EDITOR=nano visudo` parancs segítségével megkell keresni a `%wheel ALL=(ALL) ALL`-t és kivenni elöle a `#`-et
+`# EDITOR=nano visudo` parancs segítségével megkell keresni a `%wheel ALL=(ALL) ALL`-t és kivenni elöle a `#`-et
 
 *Ezután kiléphetünk a root-ból és beléphetünk az általunk készített felhasználóba*
 
 ### Billentyűzet beállítása
 
-`$ nano /etc/vconsole.conf` paranccsal beállíthatjuk a magyar billentyűzetünket
+`# nano /etc/vconsole.conf` paranccsal beállíthatjuk a magyar billentyűzetünket
 
 ```bash
 KEYMAP=hu
@@ -183,21 +184,21 @@ FONT_MAP=8859-2
 ### Bash telepítése
 
 ```bash
-$ pacman -S bash-completion
+# pacman -S bash-completion
 ```
 
 ### Videokártya telepítése
 
 ```bash
-$ pacman -S xorg xorg-xinit xorg-server xorg-apps 
-$ pacman -S nvidia nvidia-utils
+# pacman -S xorg xorg-xinit xorg-server xorg-apps 
+# pacman -S nvidia nvidia-utils
 ```
 
 ### Display Manager telepítése
 
 ```bash
-$ pacman -S xfce4 xfce4-goodies
-$ echo "exec startxfce4" > ~/.xinitrc
+# pacman -S xfce4 xfce4-goodies
+# echo "exec startxfce4" > ~/.xinitrc
 ```
 
 ### AUR programok eléréséhez
@@ -205,10 +206,10 @@ $ echo "exec startxfce4" > ~/.xinitrc
 *Késöbb törölni kell a `yay` mappát a `HOME`-ból*
 
 ```bash
-$ pacman -S git
-$ git clone https://aur.archlinux.org/yay.git
-$ cd yay
-$ makepkg -si
+# pacman -S git
+# git clone https://aur.archlinux.org/yay.git
+# cd yay
+# makepkg -si
 ```
 
 ### Login Manager telepítése
@@ -216,24 +217,24 @@ $ makepkg -si
 *Litarvan's LightDM Theme 3.0.0 [letöltése](https://github.com/Litarvan/lightdm-webkit-theme-litarvan)*
 
 ```bash
-$ pacman -S lightdm
-$ yay lightdm-webkit-theme-litarvan
-$ systemctl enable lightdm
-$ localectl set-x11-keymap hu
+# pacman -S lightdm
+# yay lightdm-webkit-theme-litarvan
+# systemctl enable lightdm
+# localectl set-x11-keymap hu
 ```
 
 #### Login Manager beállítása
 
 > A fájlok elérhetők az `src` mappában!
 
-`$ nano /etc/lightdm/lightdm.conf` -al megkeresni és átírni:
+`# nano /etc/lightdm/lightdm.conf` -al megkeresni és átírni:
 
 ```bash
 greeter-session=lightdm-webkit2-greeter
 display-setup-script=/usr/bin/dualmon.sh
 ```
 
-`$ nano /etc/lightdm/lightdm-webkit2-greeter.conf` -al megkeresni és átírni
+`# nano /etc/lightdm/lightdm-webkit2-greeter.conf` -al megkeresni és átírni
 
 ```bash
 webkit_theme      = litarvan
@@ -244,22 +245,22 @@ user_image        = /usr/share/pixmaps/xentinus.png
 ### Microcode telepítése
 
 ```bash
-$ pacman -S intel-ucode
-$ grub-mkconfig -o /boot/grub/grub.cfg
+# pacman -S intel-ucode
+# grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 ### Tűzfal telepítése
 
 ```bash
-$ pacman -S ufw
-$ ufw enable
-$ systemctl enable ufw.service
+# pacman -S ufw
+# ufw enable
+# systemctl enable ufw.service
 ```
 
 ### Hang telepítése
 
 ```bash
-$ pacman -S alsa-utils pulseaudio pavucontrol
+# pacman -S alsa-utils pulseaudio pavucontrol
 ```
 
 ### NTFS partíció támogatása
@@ -267,12 +268,12 @@ $ pacman -S alsa-utils pulseaudio pavucontrol
 *Ez csak akkor szükséges ha van egy közös partició a windows-al ami NTFS*
 
 ```bash
-$ pacman -S ntfs-3g
+# pacman -S ntfs-3g
 ```
 
 ### Egyéb particíók megjelenítésének beállítása
 
-`$ nano /etc/fstab/` beállítása hasonlóra
+`# nano /etc/fstab/` beállítása hasonlóra
 
 *Attól függ mit kell megjeleníteni és mit nem*
 
@@ -297,7 +298,7 @@ UUID=7E54F89654F8527F /mnt/7E54F89654F8527F auto nosuid,nodev,nofail,noauto 0 0
 ### Kuka és eltávolítható particiók telepítése
 
 ```bash
-$ pacman -S gvfs
+# pacman -S gvfs
 ```
 
 #### Alkalmazások telepítése
@@ -354,9 +355,7 @@ $ pacman -S gvfs
 
 ### Service-k bekapcsolása
 
-```bash
-$ systemctl enable mongodb.service
-```
+`# systemctl enable mongodb.service`
 
 ## Beállítások
 
@@ -476,7 +475,7 @@ $ systemctl enable mongodb.service
 ## Keyring kikapcsolása
 
 ```bash
-$ pacman -S seahorse
+# pacman -S seahorse
 ```
 
 Majd `Deafult keyring`-nél jobb katt és megkell változtatni a jelszót **üresre**
