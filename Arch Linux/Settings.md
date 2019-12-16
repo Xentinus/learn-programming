@@ -142,3 +142,21 @@ Insert this gist code: **f0e0909f0b91c516c9bc38386c9412382808c14d**
 Copy `/home/xentinus/.config/polybar/` files, then run `chmod +x $HOME/.config/polybar/launch.sh`
 
 After the process is complete you have to go to the Session and Startup Settings Application Autostart Tab and add this [launch.sh](./src/home/xentinus/.config/polybar/launch.sh) as Polybar
+
+## Powerline Setup
+
+Edit `/home/xentinus/.gitconfig` file or copy from `src` folder
+
+```bash
+# Powerline
+
+powerline-daemon -q
+POWERLINE_BASH_CONTINUATION=1
+POWERLINE_BASH_SELECT=1
+. /usr/share/powerline/bindings/bash/powerline.sh
+
+# Alias
+
+alias home='cd ~'
+alias root='cd /'
+```
