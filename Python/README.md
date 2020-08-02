@@ -126,7 +126,7 @@ print('this is a tab \t notice how this prints')
 # this is a tab   notice how this prints
 ```
 
-#### Indexing and Slicing
+#### Indexing and Slicing strings
 
 ##### Indexing
 
@@ -197,4 +197,674 @@ print("The {b} needs to {a}".format(a=user_name,b=action))
 num = 123.6789
 print("The code is: {}".format(num))
 print("The code is: {:.2f}".format(num))
+```
+
+### Lists
+
+Lists are ordered sequence that can hold a variety of object types. They use [ ] brackets and commas to separate objects in the list.
+
+```py
+[1, 2, 3, 4, 5]
+```
+
+Lists support indexing and slicing. Lists can be nested and also have a variety of useful methods that can be called off of them.
+
+```py
+my_list = [1,2,3]
+# [1, 2, 3]
+
+my_list2 = ['a', 2.3, 1]
+# ['a', 2.3, 1]
+```
+
+#### Indexing and Slicing lists
+
+Work just like string.
+
+```py
+mylist = ['a', 'b', 'c', 'd']
+
+mylist[0]
+# 'a'
+
+mylist[0:3]
+# ['a', 'b', 'c']
+```
+
+#### Len Function
+
+One useful builtin function is the **len** function which returns back the length of an object.
+
+```py
+len('string')
+# 6
+
+len(my_list)
+# 3
+```
+
+#### Useful List Methods
+
+```py
+mylist = [1, 2, 3]
+mylist.append(4)
+# [1, 2, 3, 4]
+
+mylist.pop()
+# return what is removed!
+# 4
+
+mylist
+# [1, 2, 3]
+
+mylist.pop(0)
+# 1
+# [2, 3]
+
+mylist = [1, 2, 3, 4, 5]
+
+mylist.reverse()
+# Doesn't return anything
+# [5, 4, 3, 2, 1]
+
+mylist.sort()
+# Doesn't return anything
+# [1, 2, 3, 4, 5]
+
+mylist.insert(0, 'NEW')
+['NEW', 1, 2, 3, 4, 5]
+```
+
+#### Nested Lists
+
+Lists can hold other lists!
+
+```py
+new_list= [1, 2, 3, ['a', 'b', 'C']]
+new_list[3]
+# ['a', 'b', 'c']
+
+new_list[3][0]
+# 'a'
+```
+
+### Dictionaries
+
+Doctopmaroes are unordered mappings for storing objects. Dictionaries use a key-value.
+This key-value pair allows users to quickly grab objects without needing to know an index location.
+
+#### Creating a Dictionary
+
+```py
+d = {'key1': 'value1', 'key2': 'value'}
+d['key1']
+# 'value'
+```
+
+#### Adding new key-items pairs
+
+```py
+d['new_key'] = 'new item'
+# {'key1': 'value1', 'key2': 'value2', 'new_key': 'new item'}
+```
+
+> **Note:** Dictionaries are unordered! This may not be clear at first with smaller dictionaries, but as dictionaries get larger they won't retain order, which means they can not be sorted! If you need order and the ability to sort, stick with a sequence, like a list!
+
+```py
+d = {'a':1,'z':2}
+d['new'] = 0
+# {'a': 1, 'new': 0, 'z': 2}
+```
+
+Dictionaries are very flexible in the data types they can hold, they can hold numbers, strings, lists, and even other dictionaries!
+
+#### Dictionaries Methods
+
+```py
+code_names = {"Obama":'Renegade',
+             "Bush":'Trailblazer',
+             "Reagan":"Rawhide",
+             "Ford":"Passkey"}
+
+code_names.keys()
+# dict_keys(['Obama', 'Bush', 'Reagan', 'Ford'])
+
+code_names.values()
+# dict_values(['Renegade', 'Trailblazer', 'Rawhide', 'Passkey'])
+
+code_names.items()
+# dict_items([('Obama', 'Renegade'), ('Bush', 'Trailblazer'), ('Reagan', 'Rawhide'), ('Ford', 'Passkey')])
+
+```
+
+### Tuples
+
+Tuples are very similar to a list. They are ordered sequences of objects, however they use ( ) parentheses instead of [ ].
+
+```py
+my_tuple = (1, 2, 3, 4, 5)
+```
+
+The major difference, being that turples are **immutable**!
+
+#### Creating a Tuple
+
+Mixed data types are fine!
+
+```py
+t = (1, 2, 3)
+t[0]
+# 'a'
+```
+
+#### Immutability
+
+```py
+t[0] = 'new'
+# TypeError: 'tuple' object does not support item assignment
+
+t.append('Nope')
+# AttributeError: 'tuple' object has no attribute 'append'
+```
+
+#### Tuple Methods
+
+```py
+t = ('a','b','c','a')
+t.index('b')
+# Returns index of first instance!
+# 1
+
+t.count('a')
+# 2
+```
+
+### Sets
+
+A set is an unordered collection of unique elements.
+We can construct them by using the `set()` function.
+
+#### Constructing Sets
+
+```py
+x = set()
+x.add(1)
+# {1}
+
+x.add(2)
+# {1, 2}
+
+# You can also quickly create a set with just {}
+myset = {1,2,3}
+```
+
+> **Note** the curly brackets. This does not indicate a dictionary! Although you can draw analogies as a set being a dictionary with only keys.
+
+We know that a set has only unique entries. So what happens when we try to add something that is already in a set?
+
+```py
+mylist = [1,1,1,1,1,2,2,2,2,2,3,3,3,3,3]
+set(mylist)
+# {1, 2, 3}
+```
+
+### Booleans
+
+Booleans are data types that indicate a logical state of `True` or `False`.
+
+Python also has a placeholder object called `None`.
+
+```py
+a = True
+# True
+
+type(a)
+# bool
+
+1 > 2
+# False
+
+2 == 2
+# True
+```
+
+We can use `None` as a placeholder for an object that we **don't want to reassign yet**!
+
+```py
+c = None
+type(c)
+# NoneType
+```
+
+### Working with Files
+
+#### Open a file
+
+```py
+myfile = open('test_file.txt')
+# Same location
+
+myfile.read()
+# One giant string!
+
+myfile.seek(0)
+# resets the cursor to the very beginning of the file
+
+
+myfile.readlines()
+# return back a list where every item is a single line
+```
+
+> **Remember:** Always close the file once you open.
+
+#### File Locations
+
+If want to open files at another location on your computer, simply pass in the entire file path.
+
+For Windows you need to use double \ so python doesn't treat the second \ as an escape character, a file path is in the form:
+
+```py
+myfile = open("C:\\Users\\YourUserName\\Home\\Folder\\myfile.txt")
+```
+
+For MacOS and Linux you use slashes in the opposite direction:
+
+```py
+myfile = open("/Users/YouUserName/Folder/myfile.txt")
+```
+
+#### Best Practice
+
+Often best practice is to use the `with` statement for opening files, this allows you to not worry about closing the file after you open it.
+
+```py
+with open('test_file.txt') as myfile:
+    # Notice the indentation!
+    lines = myfile.read()
+
+
+# File auto closed after this with statment
+```
+
+#### Read and Write Options
+
+The open() function has a second parameter that allows you to specify whether you only want to be able to read the file, or write to it as well, or do both.
+
+##### Modes & Description
+
+**r**  
+Opens a file for reading only. The file pointer is placed at the beginning of the file. This is the default mode.
+
+**r+**  
+Opens a file for both reading and writing. The file pointer placed at the beginning of the file.
+
+**w**  
+Opens a file for writing only. **Overwrites** the file if the file exists. If the file does not exist, creates a new file for writing.
+
+**w+**  
+Opens a file for both writing and reading. **Overwrites** the existing file if the file exists. If the file does not exist, creates a new file for reading and writing.
+
+**a**  
+Opens a file for **appending**. The file pointer is at the end of the file if the file exists. That is, the file is in the append mode. If the file does not exist, it creates a new file for writing.
+
+**ab**  
+Opens a file for **appending** in binary format. The file pointer is at the end of the file if the file exists. That is, the file is in the append mode. If the file does not exist, it creates a new file for writing.
+
+**a+**  
+Opens a file for both appending and reading. The file pointer is at the end of the file if the file exists. The file opens in the append mode. If the file does not exist, it creates a new file for reading and writing.
+
+```py
+f = open('test_file.txt', mode='w')
+# Returns the number of characters written
+f.write('new line')
+# 8
+
+f.close()
+
+f = open('test_file.txt')
+f.read()
+# 'new line'
+```
+
+> Notice how the entire file has been overwritten! If you want to add to the file, you need to use the **'a'** append mode for writing to it.
+
+## Control Flow Basics
+
+Control flow allows us to add logic to our code.  
+We can specify under what conditions we want certain code execute.  
+
+To do this, we use the `if`, `elif`, and `else` statements.
+
+Overview of Comparison Operators
+
+| Symbol | Meaning |
+| - | - |
+| > | Greater Than |
+| < | Less Than |
+| <= | Less Than or Equal To |
+| >= | Greater Than or Equal To |
+| == | Equals
+| != | Not Equal |
+
+Control Flow will use boolean conditions to decide whether or not to execute a block of code.
+
+Control Flow syntax makes use of colons and indentation ( **whitespace** )
+
+> This indentation system is crucial to Python and is what sets it apart from other programming languages.
+
+### if, elif, and else statements
+
+#### Simple if Statement
+
+The format for an if statement
+
+```py
+if 1>2:
+    print("One is greater than two")
+
+# Nothing
+```
+
+#### If, else Statement
+
+```py
+if 1==2:
+    print("One is equal to Two")
+else:
+    print("First if was not True")
+
+# First if was not True
+```
+
+#### If, elif, else Statement
+
+```py
+if 2 == 0:
+    print('First condition True')
+elif 2 == 1:
+    print("Second condition True")
+elif 2 == 100:
+    print("Third condition True")
+else:
+    print("None of the above conditions were True")
+
+# None of the above conditions were True
+```
+
+### While Loops
+
+In general loops allow us to repeat code multiple times.
+
+```py
+# Start by setting variable x
+x = 1
+
+while x <= 3:
+    print(x)
+    x = x + 1 # alternatively you could write x += 1
+
+# 1
+# 2
+# 3
+```
+
+> Be very careful with while loops, if a condition is set to **always be true**, your while loop will run forever, causing your program to stuck.
+
+Let's move on with some more examples. First let's show you how to accept an input from a user
+
+```py
+saved_input = input("Please input a number: ")
+# '2'
+```
+
+> Notice its a string! You can always cast it with `int()` or `float()` to get a int or float to work with.
+
+```py
+print("Welcome Agent")
+# start with some default passcode (needs to be defined before while loop starts)
+passcode = 0
+
+while passcode != 123:
+    passcode = int(input("Please provide your passcode: "))
+
+    #Nested control flow logic
+    if passcode != 123:
+        print("Sorry wrong passcode provided")
+        print("Try Again")
+        print('\n')
+
+# This won't run until the while loop is
+# done because of the indentation
+print("Correct Passcode!")
+```
+
+#### break keyword
+
+The break keyword allows you to "break" out of the loop that contains the break keyword.
+
+```py
+x = 0
+
+while x < 10:
+    print(x)
+    x += 1
+
+    if x == 3:
+        # This will cause to break out of the top loop
+        # Note that if statements don't count as loops
+        break
+
+# 0
+# 1
+# 2
+```
+
+### For Loops
+
+Many objects in Python are "iterable", meaning we can iterate over every element in the object. Such as every element in a list or every character in a string.  
+We can use for loops to execute a block of code for every iteration.
+
+```py
+# for loop with a list
+
+mylist = [1,2,3,4]
+
+for num in mylist:
+    print(num)
+
+# 1
+# 2
+# 3
+# 4
+
+for num in mylist:
+    print(num,end=' ')
+
+> 1 2 3 4
+```
+
+#### continue keyword
+
+The continue keyword can be a bit tricky to see its usefulness, but it allows you to continue with the top level loop, basicaly the opposite of break.
+
+```py
+for letter in 'code':
+    if letter == 'd':
+        continue
+        
+    print('Current Letter is: {}'.format(letter))
+
+# Current Letter is: c
+# Current Letter is: o
+# Current Letter is: e
+```
+
+### Useful Operators
+
+#### range function
+
+The range function allows you to quickly generate a **list of integers**, this comes in handy a lot, so take note of how to use it! There are 3 parameters you can pass, a start, a stop, and a step size.
+
+```py
+range(0,11)
+```
+
+> Note that this is a **generator** function, so to actually get a list out of it, we need to cast it to a list with `list()`. What is a generator? Its a special type of function that will generate information and not need to save it to memory.
+
+```py
+# Third parameter is step size!
+
+list(range(0,11,2))
+# [0, 2, 4, 6, 8, 10]
+```
+
+#### enumerate function
+
+enumerate is a very useful function to use with for loops.
+
+```py
+index_count = 0
+
+for letter in 'abcde':
+    print("At index {} the letter is {}".format(index_count,letter))
+    index_count += 1
+```
+
+```py
+# Notice the tuple unpacking!
+
+for i,letter in enumerate('abcde'):
+    print("At index {} the letter is {}".format(i,letter))
+```
+
+#### zip function
+
+```py
+list(enumerate('abcde'))
+```
+
+It was a list of tuples, meaning we could use tuple unpacking during our for loop. This data structure is actually very common in Python , especially when working with outside libraries. You can use the `zip()` function to quickly create a list of tuples by "zipping" up together two lists.
+
+```py
+mylist1 = [1,2,3,4,5]
+mylist2 = ['a','b','c','d','e']
+
+list(zip(mylist1,mylist2))
+[(1, 'a'), (2, 'b'), (3, 'c'), (4, 'd'), (5, 'e')]
+```
+
+#### in operator
+
+```py
+'x' in ['x','y','z']
+# True
+
+'x' in [1,2,3]
+# False
+```
+
+#### min and max function
+
+```py
+mylist = [10,20,30,40,100]
+
+min(mylist)
+# 10
+
+max(mylist)
+# 100
+```
+
+#### random function
+
+Python comes with a built in random library. There are a lot of functions included in this random library.
+
+```py
+from random import shuffle
+
+# This shuffles the list "in-place" meaning it won't return
+# anything, instead it will effect the list passed
+shuffle(mylist)
+# [40, 10, 100, 30, 20]
+
+from random import randint
+# Return random integer in range [a, b], including both end points.
+randint(0,100)
+# 25
+```
+
+#### input
+
+```py
+input('Enter Something into this box: ')
+Enter Something into this box: great job!
+```
+
+### List Comprehensions
+
+ List comprehensions allow us to build out lists using a different notation. You can think of it as essentially a one line for loop built inside of brackets.
+
+ ```py
+mylist = []
+for let in 'word':
+    mylist.append(let)
+
+# ['w', 'o', 'r', 'd']
+```
+
+Using a list comprehension
+
+```py
+myletters = [let for let in 'word']
+# ['w', 'o', 'r', 'd']
+
+squares = [x**2 for x in range(0,11)]
+# [0, 1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+```
+
+You can also do an if/else statement in a list comprehension, but keep in mind, at a certain point you will sacarafice readability, which is a big part of Python. If you are having trouble figuring out how to put something in a list comprehension, just use a for loop instead, its almost always just as efficient.
+
+```py
+mylist = [x if x%2 == 0 else 'not even' for x in range(0,10) ]
+# [0, 'not even', 2, 'not even', 4, 'not even', 6, 'not even', 8, 'not even']
+```
+
+## Functions
+
+Creating clean repeatable code is a key part of becoming an effective programmer.
+
+Functions allow us to create blocks of code that can be easily execute multiple times, without needing to constantly rewrite the entire block of code.
+
+### The def Statement
+
+To create a function we use the def keyword.
+
+```py
+def lowercase_function_name(argument1,argument2,argument3='default value'):
+    '''
+    This is the DocString of the function. It is where you can write a helpful 
+    description for anyone who will use your function.
+    '''
+    # After the docstring you write code that does stuff.
+```
+
+```py
+def report(name='Jason'):
+    print('Reporting {}'.format(name))
+
+report()
+# Reporting Jason
+
+report('Kay')
+# Reporting Kay
+```
+
+### The return keyword
+
+```py
+def add(n1,n2):
+    return n1+n2
+
+add(2,3)
+# 5
 ```
