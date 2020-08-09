@@ -868,3 +868,344 @@ def add(n1,n2):
 add(2,3)
 # 5
 ```
+
+### Nested Statements and Scopes
+
+```py
+x = 'outside'
+
+def report():
+    x = 'inside'
+    return x
+```
+
+#### Scope
+
+**LEGB Rule.**
+
+**L: Local** — Names assigned in any way within a function (def or lambda)), and not declared global in that function.
+
+**E: Enclosing function locals** — Name in the local scope of any and all enclosing functions (def or lambda), from inner to outer.
+
+**G: Global (module)** — Names assigned at the top-level of a module file, or declared global in a def within the file.
+
+**B: Built-in (Python)** — Names preassigned in the built-in names module : open,range,SyntaxError
+
+### Global keyword
+
+You can use the global keyword before the variable to indicate you want to "grab" the global variable. Keep in mind this is generally not recommended, and you should try your best to avoid this until you become more experienced, because it becomes very easy to accidentally create errors this way by overwriting variables in one part of your script that effect the script in a completely different part.
+
+```py
+x = 'global outside'
+
+def myfunc():
+    # Must declare global keyword before every using it
+    # inside of the function.
+    global x
+
+    print('X is {}'.format(x))
+
+    x = 'redefined inside myfunc() with global keyword'
+
+    print('X is {}'.format(x))
+
+
+myfunc()
+# X is global outside
+# X is redefined inside myfunc() with global keyword 
+```
+
+### Lambda Expression, Map, Filter
+
+Map and Filter are built-in functions in Python that allow you to efficiently apply functions to lists.
+
+Lambda expressions are useful in this context because they allow for the creator of functionality without the full formal syntax of a normal Python function.
+
+#### map function
+
+The map function allows you to "map" a function to an iterable object. That is to say you can quickly call the same function to every item in an iterable, such as a list.
+
+```py
+def square(num):
+    return num**2
+my_nums = [1,2,3,4,5]
+
+for item in map(square,my_nums):
+  print(item)
+# 1, 4, 9, 16, 25
+
+list(map(square,my_nums))
+# [1, 4, 9, 16, 25]
+```
+
+#### filter function
+
+The filter function returns an iterator yielding those items of iterable for which function(item) is true. Meaning you need to filter by a function that returns either True or False. Then passing that into filter (along with your iterable) and you will get back only the results that would return True when passed to the function.
+
+```py
+def check_even(num):
+    return num % 2 == 0
+nums = [0,1,2,3,4,5,6,7,8,9,10]
+
+list(filter(check_even,nums))
+# [0, 2, 4, 6, 8, 10] <- only true numbers
+```
+
+#### lambda expression
+
+One of Pythons most useful (and for recruits, confusing) tools is the lambda expression. lambda expressions allow us to create "anonymous" functions. This basically means we can quickly make ad-hoc functions **without needing to properly define** a function using def.
+
+Function objects returned by running lambda expressions work exactly the same as those created and assigned by defs. There is key difference that makes lambda useful in specialized roles:
+
+**lambda's body is a single expression, not a block of statements.**
+
+The lambda's body is similar to what we would put in a def body's return statement. We simply type the result as an expression instead of explicitly returning it. Because it is limited to an expression, a lambda is less general that a def. We can only squeeze design, to limit program nesting. lambda is designed for coding simple functions, and def handles the larger tasks.
+
+Block type
+
+```py
+def square(num):
+  result = num**2
+  return result
+```
+
+Simplify
+
+```py
+def square(num):
+  return num**2
+```
+
+Even write this all on one line
+
+```py
+def square(num): return num**2
+```
+
+This is the form a function that a lambda expression intends to replicate.
+
+```py
+lambda num: num ** 2
+
+list(map(lambda num:num**2,[1,2,3]))
+# {1, 4, 9}
+```
+
+## Object Oriented Programming
+
+Object Oriented Programming (OOP) allows programmers to create their own objects that have methods and attributes.
+
+Recall that after defining a string, list, dictionary, or other objects, you were able to call methods off of them with the .method_name() syntax.
+
+OOP allows users to create their own objects.
+
+The general format is often confusing then first encountered, and its usefulness may not be completely clear at first.
+
+In general, OOP allows us to create code that is repeatable and organized.
+
+For much larger scripts of Python code, functions by themselves aren't enough for organization and repeatability.
+
+Commonly repeated tasks and objects can be defined with OOP to create code that is more usable.
+
+```py
+class NameOfClass():
+  
+  def __init__(self, param1, param2):
+    self.param1 = param1
+    self.param2 = param2
+
+  def some_method(self):
+    # perform some action
+    print(self.param1)
+```
+
+### Class
+
+The user defined objects are created using the class keyword. The class is a blueprint that defines a nature of a future object. From classes we can construct instances. An instance is a specific object created from a particular class. 
+
+```py
+# Create a new object type called Sample
+class Sample():
+    pass
+
+# Instance of Sample
+x = Sample()
+
+print(type(x)
+# <class '__main__.Sample'>
+```
+
+By convention we give classes a name that starts with a capital letter. Note how x is now the reference to our new instance of a Sample class. In other words, we **instantiate** the Sample class.
+
+Inside of the class we currently just have pass. But we can define class attributes and methods.
+
+An **attribute** is a characteristic of an object. A **method** is an operation we can perform with the object.
+
+For example we can create a class called Agent. An attribute of an Agent may be their height, eye color, name, etc. A method is typically more similar to a function acting on the object itself, for example having the Agent object print out its code name would be suitable for a method.
+
+Let's get a better understanding of attributes through an example.
+
+### Attributes
+
+The syntax for creating an attribute is:
+
+```py
+self.attribute = something
+```
+
+There is a special method called:
+
+```py
+__init__()
+```
+
+This method is used to initialize the attributes of an object.
+
+```py
+class Agent():
+    def __init__(self, real_name):
+        self.real_name = real_name
+
+
+m = Agent('Mike')
+# 'Mike'
+```
+
+Lets break down what we have above. The special method
+
+`__init__()`
+
+is called automatically right after the object has been created:
+
+`def __init__(self, real_name):`
+
+Each attribute in a class definition begins with a reference to the instance object. It is by convention named self. The real_name is the argument. The value is passed during the class instantiation.
+
+`self.real_name = real_name`
+
+Now we have created two instances of the Agent class. With two Agent instances, they each have their own real_name attribute, we can then access these attributes like this:
+
+```py
+m.real_name
+# 'Mike'
+```
+
+In Python there are also class object attributes. These Class Object Attributes are the same for any instance of the class. For example, we could create the attribute **planet** for the Agent class. Agents (regardless of their height,eye color,name, or other attributes will always be on planet Earth, at least for now! We apply this logic in the following manner:
+
+```py
+class Agent():
+
+    # Class Object Attribute
+    planet = 'Earth'
+
+    def __init__(self, real_name, eye_color, height):
+        self.real_name = real_name
+        self.eye_color = eye_color
+        self.height = height
+
+m = Agent('Mike', 'Green', 175)
+```
+
+> Note that the Class Object Attribute is defined outside of any methods in the class. Also by convention, we place them first before the init.
+
+```py
+m.real_name
+# 'Mike'
+m.height
+# 175
+m.eye_color
+# 'Green'
+m.planet
+# 'Earth'
+```
+
+### Methods
+
+Methods are functions defined inside the body of a class. They are used to perform operations with the attributes of our objects. Methods are essential in encapsulation concept of the OOP paradigm. This is essential in dividing responsibilities in programming, especially in large applications.
+
+You can basically think of methods as functions acting on an Object that take the Object itself into account through its self argument.
+
+```py
+class Circle():
+
+    # Should be same for any circle of any size
+    pi = 3.14
+
+    # Circle get instantiated with a radius (default is 1)
+    def __init__(self, radius=1):
+        self.radius = radius
+
+    # Area method calculates the area. Note the use of self.
+    def area(self):
+        return self.radius * self.radius * Circle.pi
+
+    def perimeter(self):
+        return 2 * self.radius * Circle.pi
+
+    def report_something(self,name):
+        return 'Report {}'.format(name)
+
+mycircle = Circle(3)
+
+mycircle.radius
+
+mycircle.area()
+# 28.26
+```
+
+### Inheritance
+
+Inheritance is a way to form new classes using classes that have already been defined. The newly formed classes are called derived classes, the classes that we derive from are called base classes. Important benefits of inheritance are code reuse and reduction of complexity of a program. The derived classes (descendants) override or extend the functionality of base classes (ancestors).
+
+First Base Class
+
+```py
+class Person():
+    def __init__(self,first_name,last_name):
+        self.first_name = first_name
+        self.last_name = last_name
+
+    def report(self):
+        print("I am {} {}.".format(self.first_name,self.last_name))
+
+    def hello(self):
+        print("Hello!")
+```
+
+Second Class will inherit from Person base class, allowing it to inherit its attributes and methods. Notice how we pass the class, we don't actually instantiate it with () , we just pass it through.
+
+```py
+class Agent(Person):
+
+    def __init__(self,first_name,last_name,code_name):
+        Person.__init__(self,first_name,last_name)
+        self.code_name = code_name
+
+    def report(self):
+        # This overwrites the Person report() method
+        print('Sorry I can not give you my real name')
+        print("You can call me {}".format(self.code_name))
+
+    def true_name(self,passcode):
+        # We can add additional methods unique to the Agent class
+
+        if passcode == 123:
+            print("Thank you for providing the passcode")
+            print("I am {} {}.".format(self.first_name,self.last_name))
+        else:
+            self.report()
+
+    def _private_methods(self):
+        # Start methods with a single underscore to make them "private"
+        # Keep in mind Python is very open by its nature
+        # Any user could still find out these classes exist
+        # This is more to denote that the user shouldn't be needing
+        # To interact with this method.
+        print("Privacy Please.")
+
+
+    # Notice how we don't have the hello() method here
+    # We will be inheriting it from the Person class!
+```
+
+### Special Methods
