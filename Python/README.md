@@ -691,7 +691,7 @@ The continue keyword can be a bit tricky to see its usefulness, but it allows yo
 for letter in 'code':
     if letter == 'd':
         continue
-        
+
     print('Current Letter is: {}'.format(letter))
 
 # Current Letter is: c
@@ -842,7 +842,7 @@ To create a function we use the def keyword.
 ```py
 def lowercase_function_name(argument1,argument2,argument3='default value'):
     '''
-    This is the DocString of the function. It is where you can write a helpful 
+    This is the DocString of the function. It is where you can write a helpful
     description for anyone who will use your function.
     '''
     # After the docstring you write code that does stuff.
@@ -912,7 +912,7 @@ def myfunc():
 
 myfunc()
 # X is global outside
-# X is redefined inside myfunc() with global keyword 
+# X is redefined inside myfunc() with global keyword
 ```
 
 ### Lambda Expression, Map, Filter
@@ -1021,7 +1021,7 @@ class NameOfClass():
 
 ### Class
 
-The user defined objects are created using the class keyword. The class is a blueprint that defines a nature of a future object. From classes we can construct instances. An instance is a specific object created from a particular class. 
+The user defined objects are created using the class keyword. The class is a blueprint that defines a nature of a future object. From classes we can construct instances. An instance is a specific object created from a particular class.
 
 ```py
 # Create a new object type called Sample
@@ -1209,3 +1209,774 @@ class Agent(Person):
 ```
 
 ### Special Methods
+
+n order to interact with Python's built in methods, we will need to use special method names that are built in to PYython. These are denoted by their use of double underscores on each side:
+
+Classes in Python can implement certain operations with special method names. These methods are not actually called directly but by Python specific language syntax.
+
+```py
+class Book():
+
+    def __init__(self, title, author, pages):
+        self.title = title
+        self.author = author
+        self.pages = pages
+
+    def __str__(self):
+        return "Title: {} , author:{}, pages: {}.".format(self.title, self.author, self.pages)
+
+    def __len__(self):
+        return self.pages
+
+    def __del__(self):
+        print("A book is destroyed")
+
+book = Book("Python Rocks!", "Jose Portilla", 159)
+
+#Special Methods
+print(book)
+print(len(book))
+del book
+
+# Title: Python Rocks! , author:Jose Portilla, pages: 159.
+# 159
+# A book is destroyed
+```
+
+## Error Handling and Exceptions
+
+Errors are bound to happen in your code, especially when someone else ends up using it in an unexpected way.
+
+We can use error handling to attempt to plan for possible errors.
+
+For example if we try to write to a file that was only opened in 'r' read mode, then an error occurs and the script stops running.
+
+We can use the `try`, `except`, `finally` keywords to catch errors, create a block of code that will run in case an error happens, and finally run the rest of the script.
+
+```py
+print('hello)
+
+
+  File "<ipython-input-1-42a5d8469d67>", line 1
+    print('hello)
+                 ^
+SyntaxError: EOL while scanning string literal
+```
+
+### Try and Except
+
+The basic terminology and syntax used to handle errors in Python is the try and except statements. The code which can cause an exception to occue is put in the try block and the handling of the exception is the implemented in the except block of code.
+
+```py
+try:
+   # You attempt your operation here
+except ExceptionI:
+   # If there is ExceptionI, then execute this block.
+except ExceptionII:
+   # If there is ExceptionII, then execute this block.
+else:
+   # If there is no exception then execute this block.
+```
+
+We can also just check for any exception with just using except: To get a better understanding of all this lets check out an example: We will look at some code that opens and writes a file:
+
+```py
+try:
+    f = open('testfile','w')
+    f.write('Test write this')
+
+except IOError:
+
+    # This will only check for an IOError exception and then execute this print statement
+    print("Error: Could not find file or read data")
+else:
+
+    print("Content written successfully")
+    f.close()
+```
+
+If we don't want to check for multiple errors, we can just use except
+
+```py
+try:
+    f = open('testfile','r')
+    f.write('Test write this')
+
+except:
+
+    # This will only check for an IOError exception and then execute this print statement
+    print("Error: Could not find file or read data")
+else:
+
+    print("Content written successfully")
+    f.close()
+```
+
+### Finally keyword
+
+```py
+try:
+    f = open('testfile','r')
+    f.write('Test write this')
+
+except:
+
+    # This will only check for an IOError exception and then execute this print statement
+    print("Error: Could not find file or read data")
+finally:
+    print('I always print, even if there was an exception!')
+
+
+# Error: Could not find file or read data
+# I always print, even if there was an exception!
+```
+
+## Debugging and Datetime
+
+Python comes with a powerful debugger that can help you find mistakes in your code.
+
+We can set a trace that allows us to "stop" our code at any point we decide and explore variables and operations.
+
+### Debugging with Python Debugger
+
+You've probably used a variety of print statements to try to find errors in your code. A better way of doing this is by using Python's built-in debugger module (pdb). The pdb module implements an interactive debugging environment for Python programs. It includes features to let you pause your program, look at the values of variables, and watch program execution step-by-step, so you can understand what your program actually does and find bugs in the logic.
+
+```py
+import pdb
+x = '1'
+y = 2
+z = 3
+
+# Lots more code
+result = y + z
+print(result)
+
+# Set a trace using Python Debugger
+pdb.set_trace()
+
+# Lots more code
+result = y+x
+print(result)
+```
+
+### Getting Dates and Times
+
+```py
+mport datetime
+t = datetime.time(1, 15, 5)
+
+t.hour
+# 1
+
+t.minute
+# 15
+
+t.second
+# 5
+
+t.microsecond
+# 0
+
+
+# Get current date
+datetime.date.today()
+# datetime.date(2017, 12, 16)
+
+# Get current time
+datetime.datetime.now()
+#datetime.datetime(2017, 12, 16, 0, 54, 32, 169992)
+```
+
+## Modules and Packages
+
+A module is a file that can be imported under one import
+
+```py
+import my_module
+```
+
+A package is a collection of modules in directories that give a package hierarchy
+
+```py
+from mypackage.some_file import some_func
+```
+
+To install piblicly available modules you can use the pip install system. At your command line you can type
+
+```py
+pip install name_of_library
+```
+
+This will install the library requested as long as you have an internet connection and don't have firewall blocking the connection.
+
+### mymodule
+
+```py
+# This is the module we will be importing from!
+# Great resource: https://docs.python.org/3/tutorial/modules.html
+
+def func_in_mymodule():
+    print("I am a function inside of the mymodule.py file!")
+```
+
+### myprogram
+
+```py
+################
+# Example Three:
+################
+# Uncomment this and comment everything else to run!
+
+# import mymodule
+# mymodule.func_in_mymodule()
+
+################
+# Example Two:
+################
+# Uncomment this and comment everything else to run!
+
+# import mymodule as mm
+# mm.func_in_mymodule()
+
+################
+# Example Three:
+################
+# Uncomment this and comment everything else to run!
+
+# from mymodule import func_in_mymodule
+# func_in_mymodule()
+
+################
+# Example Four:
+################
+# Uncomment this and comment everything else to run!
+
+# This is posisble but frowned upon, often causes poorly readable code because
+# you don't know what functions come from mymodule
+
+# from mymodule import *
+# func_in_mymodule()
+```
+
+## Name and __main__
+
+Ofthen in larger scripts, you will see this:
+
+```py
+if __name__ == "__main__"
+```
+
+This line of code is designed to help indicate where function calls are comming from when working with multiple.py scripts.
+
+Sometimes when you are importing from a module, you would like to know whether a module's fucntion is being used as an import, or if you are using the original .py file of that module
+
+`__name__` is a built-in variable which evaluates to the name of the current module. However, if a module is being run directly, then `__name__` instead is set to the string `"__main__"`.
+
+## Web Scraping
+
+```py
+import requests
+res = requests.get('http://example.com')
+
+print(res.text)
+# Page source
+
+import bs4
+soup = bs4.BeautifulSoup(res, 'lxml')
+title_tag_list = soup.select('title')
+
+print(title_tag_list)
+# [<title>Example Domain</title>]
+
+print(title_tag_list[0].getText())
+# Example Domain
+```
+
+### Grab All Elements of a Class
+
+| Syntax to pass to the .select() method | Match Result |
+| - | - |
+| soup.select('div') | All elements with the `div` tag |
+| soup.select('#some_id') | The HTML element containing the id attribute of some_id |
+| soup.select('.notice') | All the HTML elements with the CSS `class` named `notice` |
+| soup.select('div span') | Any elements named `<span>` that are within an element named `<div>`|
+| soup.select('div > span') | Any elemnts named `<span>` that are directly within an element named `<div>`, with no other elemnt in between |
+
+### Download image
+
+```py
+image_info = soup.select('.thumbimage')
+cicada = image_info[0]
+
+image_link = 'http:' + cicada['src']
+
+cicada_image = request.get(image_link, 'lxml')
+f = open('cicada_image_new.jpg', 'wb') # only create, not contain
+f.write(cicada_image.content)
+f.close()
+```
+
+## Regular Expressions
+
+Imagine you needed to search a string for a term, such as "phone". You can use the in keyword to do this:
+
+```py
+"phone" in "Is the phone here?"
+# True
+```
+
+If all you knew was the format of the number: ###-###-#### you would need regular expressions to search through the document for this pattern.
+
+Regular expressions allow for pattern searching in a text document.
+
+The syntax for regular expressions can be very intimidating at first:
+
+```py
+r'\d{3}-\d{3}-\d{4}'
+```
+
+The key thing to keep in mind is that every character type has a corresponding pattern code.
+
+For example, digits have the placeholder pattern code of `\d`
+
+The use of blackslash allows python to understand that it is a special code and not the letter `"d"`
+
+Python's built in `re` module can work with these special pattern codes to search through documents to retrive information.
+
+```py
+text = "The agent's phone number is 408-555-1234. Call soon!"
+
+# Only return one
+
+import re
+pattern = 'phone'
+match = re.search(pattern, text)
+
+match.span()
+# (12, 17)
+
+match.start()
+# 12
+
+match.end()
+# 17
+
+match.group()
+# phone
+
+# Get list from matches
+matches = re.findall('phone', text)
+
+# Get matches one by one
+for match in re.finditer('phone', text):
+  print(match)
+
+```
+
+### Character Identifiers
+
+| Character | Description | Example Pattern Code | Example Match |
+| - | - | - | - |
+| \d | A digit | file_\d\d | file_25 |
+| \w | Alphanumeric | \w-\w\w\w | A-b_1 |
+| \s | White space | a\sb\sc | a b c |
+| \D | A non digit | \D\D\D | ABC |
+| \W | Non-alphanumberic | \W\W\W\W\W | *-+=) |
+| \S | Non-whitespace | \S\S\S\S | Yoyo |
+
+```py
+text = 'My phone number is 408-555-1234'
+phone = re.search(r'\d\d\d-\d\d\d-\d\d\d\d', text)
+# r in seach means its a regular expression, not a tab or anything like that
+```
+
+### Quantifiers
+
+| Character | Description | Example Pattern Code | Example Match |
+| - | - | - | - |
+| + | Occurs one or more times | Version \w-\w+ | Version A-b1_1 |
+| {3} | Occurs exactly 3 times | \D{3} | abc |
+| {2,4} | Occurs 2 to 4 times | \d{2,4} | 123 |
+| {3,} | Occurs 3 or more | \w{3,} | anycharacters |
+| \* | Occurs zero or more times | ABC* | AAACC |
+| ? | Once or none | plurals? | plural |
+
+```py
+text = 'My phone number is 408-555-1234'
+phone = re.search(r'\d{3}-\d{3}-\d{4}', text)
+
+phone_pattern = re.compiple(r'(\d{3})-(\d{3})-(\d{4})')
+results = re.search(phone_pattern, text)
+
+result.group()
+# 408-555-7777
+
+result.group(1) # start counting: 1
+# 408
+```
+
+### Additional Regex Syntax
+
+```py
+# Pipe operator ( or )
+re.search(r'cat|dog', 'The dog is here')
+
+# Wild card
+re.findall(r'.at', 'The cat in the hat sat there.') # get anything if more .
+# ['cat', 'hat', 'sat']
+
+# Start with a number
+re.findall(r'^\d', '1 is a number')
+# ['1']
+
+# Ends with a number
+re.findall(r'\d$', 'The number is 2')
+# ['2']
+
+# Get only words
+phrase = 'there are 3 numbers 34 inside 5 this sentence'
+pattern = r'[^\d]+' # exclude any digits, + need for print not characters
+re.findall(pattern, phrase)
+
+# Exclude
+test_phrase = 'This is a string! But it has punctuation. How can we remove it?'
+clean = re.findall(r'[^!.? ]+', test_phrase) # return list without ! . ? (space need for more readablility)
+' '.join(clean)
+
+# Grouping
+pattern = r'[\w]+-[\w]+'
+```
+
+## Reading and Writing to Files with OS
+
+```py
+import os
+
+# get current working directory
+os.getcwd()
+
+# get files of dir
+os.listdir('C:\\Users') # default current dir
+
+import shutil # dealing with files
+
+# move file
+shutil.move('practice.txt', 'C:\\Users\\Marcial')
+shutil.move('C:\\Users\\Marcial\\practice.txt', os.getcwd())
+
+# perma delete file
+os.unlink(path)
+
+# perma delete folder (must be empty)
+os.rmdir(path)
+
+# perma delete folder (everything)
+shutil.rmtree(patch)
+
+# if you want to trash
+# pip install send2trash
+import send2trash
+send2trash.send2trash('practice.txt')
+
+for folder, sub_folders, files in os.walk(os.getcwd()):
+  print(folder)
+  print('\n')
+
+  for sub_folder in sub_folders:
+    print(sub_folder)
+  print('\n')
+
+  for f in files:
+    print(f)
+  print('\n')
+```
+
+### Zip Files with Python
+
+The zipfile module allows for creating a zip archive and then adding indicidual files to it.
+
+The shutit module allows for quickly compressing an entire directory into a zip archive.
+
+```py
+f = open('new_file.txt', 'w+')
+f.write('here is some text')
+f.close()
+
+import zipfile
+
+# Write to ZIP file
+comp_file = zipfile.ZipFile('my_compressed_info.zip', 'w')
+comp_file_write('new_file.txt', compress_type=zipfile.ZIP_DEFLATED)
+comp_file_write('new_file2.txt', compress_type=zipfile.ZIP_DEFLATED)
+comp_file.close()
+
+# Extract from ZIP file
+zib_obj = zipfile.ZipfFile('my_compressed_info.zip', 'r')
+zib_obj.extractall('extracted_content') # all to folder
+zib_obj.extract('new_file.txt') # only one file
+
+# Write, extract folder with Shutil library
+
+import shutil
+shutil.make_archive('my_new_compressed', 'zip', 'My_Example_Folder')
+shutil.unpack_archive('my_new_comressed.zip', 'my_extracted_content', 'zip')
+```
+
+## Working with CSVs with Python
+
+ A file with the CSV file extension is a Comma Separated Values file. All CSV files are plain text, contain alphanumeric characters, and structure the data contained within them in a tabular form. Don't confuse Excel Files with csv files, while csv files are formatted very similarly to excel files, they don't have data types for their values, they are all strings with no font or color. They also don't have worksheets the way an excel file does. Python does have several libraries for working with Excel files, you can check them out here and here.
+
+Files in the CSV format are generally used to exchange data, usually when there's a large amount, between different applications. Database programs, analytical software, and other applications that store massive amounts of information (like contacts and customer data), will usually support the CSV format.
+
+### Reading and encode CSV Files
+
+```py
+import csv
+
+data = open('example.csv',encoding="utf-8")
+csv_data = csv.reader(data)
+data_lines = list(csv_data)
+
+for line in data_lines[:5]:
+    print(line)
+
+# ['id', 'first_name', 'last_name', 'email', 'gender', 'ip_address', 'city']
+# ['1', 'Joseph', 'Zaniolini', 'jzaniolini0@simplemachines.org', 'Male', '163.168.68.132', 'Pedro Leopoldo']
+# ['2', 'Freida', 'Drillingcourt', 'fdrillingcourt1@umich.edu', 'Female', '97.212.102.79', 'Buri']
+# ['3', 'Nanni', 'Herity', 'nherity2@statcounter.com', 'Female', '145.151.178.98', 'Claver']
+# ['4', 'Orazio', 'Frayling', 'ofrayling3@economist.com', 'Male', '25.199.143.143', 'Kungur']
+
+# Get all Emails
+all_emails = []
+for line in data_lines[1:15]:
+    all_emails.append(line[3])
+print(all_emails)
+# ['jzaniolini0@simplemachines.org', 'fdrillingcourt1@umich.edu', 'nherity2@statcounter.com', 'ofrayling3@economist.com', 'jmurrison4@cbslocal.com', 'lgamet5@list-manage.com', 'dhowatt6@amazon.com', 'kherion7@amazon.com', 'chedworth8@china.com.cn', 'hgasquoine9@google.ru', 'ftarra@shareasale.com', 'abathb@umn.edu', 'lchastangc@goo.gl', 'cceried@yale.edu']
+
+# Get list of full names
+full_names = []
+
+for line in data_lines[1:15]:
+    full_names.append(line[1]+' '+line[2])
+print(full_names)
+# ['Joseph Zaniolini',
+# 'Freida Drillingcourt',
+#  'Nanni Herity',
+#  'Orazio Frayling',
+#  'Julianne Murrison',
+#  'Lucy Gamet',
+#  'Dyana Howatt',
+#  'Kassey Herion',
+#  'Chrissy Hedworth',
+#  'Hyatt Gasquoine',
+#  'Felicdad Tarr',
+#  'Andrew Bath',
+#  'Lucais Chastang',
+#  'Car Cerie']
+```
+
+### Writing to CSV Files
+
+#### New File
+
+This will also overwrite any existing file with the same name, so be careful with this!
+
+```py
+# mode). It can be None, '', '\n', '\r', and '\r\n'.
+file_to_output = open('to_save_file.csv','w',newline='')
+csv_writer = csv.writer(file_to_output,delimiter=',')
+csv_writer.writerow(['a','b','c'])
+# 7
+
+csv_writer.writerows([['1','2','3'],['4','5','6']])
+file_to_output.close()
+```
+
+#### Existing File
+
+```py
+f = open('to_save_file.csv','a',newline='')
+csv_writer = csv.writer(f)
+csv_writer.writerow(['new','new','new'])
+# 13
+f.close()
+```
+
+### Working with PDFs with Python
+
+Often in the field you will need to work woth not only CSV files, but also PDF files.
+
+There are many libraries for working with PDFs with Python, the most common one is PyPDF2.
+
+You can install it with `pip install PyPDF2`
+
+Not every PDF file will be readable by Python.
+
+PDFs that are too blurry, have a special encoding, encrypted, or maybe just created with a particular program that doesn't work well with PyPDF2 won't be able to be read.
+
+PyPDF2 can only read text information form a PDF document, it won't be able to grab images or other media files from a PDF.
+
+#### Reading PDFs
+
+```py
+import PyPDF2
+f = open('Working_Business_Proposal.pdf','rb')
+pdf_reader = PyPDF2.PdfFileReader(f)
+
+print(pdf_reader.numPages)
+# 5
+
+# We can then extract the text:
+page_one = pdf_reader.getPage(0)
+page_one_text = page_one.extractText()
+f.close()
+```
+
+#### Adding to PDFs
+
+We can not write to PDFs using Python because of the differences between the single string type of Python, and the variety of fonts, placements, and other parameters that a PDF could have.
+
+```py
+f = open('Working_Business_Proposal.pdf','rb')
+pdf_reader = PyPDF2.PdfFileReader(f)
+
+first_page = pdf_reader.getPage(0)
+
+pdf_writer = PyPDF2.PdfFileWriter()
+pdf_writer.addPage(first_page)
+
+pdf_output = open("Some_New_Doc.pdf","wb")
+pdf_writer.write(pdf_output)
+
+f.close()
+```
+
+#### Simple Example
+
+Let's try to grab all the text from this PDF file:
+
+```py
+f = open('Working_Business_Proposal.pdf','rb')
+
+# List of every page's text.
+# The index will correspond to the page number.
+pdf_text = []
+
+pdf_reader = PyPDF2.PdfFileReader(f)
+
+for p in range(pdf_reader.numPages):
+
+    page = pdf_reader.getPage(p)
+
+    pdf_text.append(page.extractText())
+print(pdf_text[3])
+```
+
+## Emails with Python
+
+### Sending emails
+
+To send emails with Python, we need to manually go through the steps of connecting to an email server, confirming connection, setting a protocol, logging on, and sending the message.
+
+Fortunately the built-in `smtplib` library in Python makes these steps simple function calls.
+
+Each major email provider has their own SMTP (Simple Mail Transfer Protocol) server.
+
+| Provider | SMTP server domain name |
+| - | - |
+| Gmail (will need App password) | smtp.gmail.com |
+| Yahoo Mail | smtp.mail.yahoo.com |
+| Outlook / Hotmail | smtp-mail.outlook.com |
+| AT&T | smtp.mail.att.net (use port 465) |
+| Verizon | smtp.verizon.net (use port 465) |
+| Comcast | smtp.comcast.net |
+
+For gmail users, you will need to generate an app password instead of your normal password.
+
+This let's Gmail know that the Python script attempting to access your account is authorized by you.
+
+```py
+import smtplib
+smtp_object = smtplib.SMTP('smtp.gmail.com', 587)
+smtp_object.ehlo() # Connect to server
+smtp_object.starttls() # If you are using port 465, this means you are using SSL and you can skip this step.
+
+import getpass # for hidden passwords
+result = getpass.getpass("Type something here and it will be hidden: ")
+```
+
+> Note for Gmail Users, you need to generate an app password instead of your normal email password. This also requires enabling 2-step authentication. Follow the instructions here to set-up 2-Step Factor Authentication as well as App Password Generation <https://support.google.com/accounts/answer/185833?hl=en/>. Set-up 2 Factor Authentication, then create the App Password, choose Mail as the App and give it any name you want. This will output a 16 letter password for you. Pass in this password as your login password for the smtp.
+
+```py
+email = getpass.getpass("Enter your email: ")
+password = getpass.getpass("Enter your password: ")
+smtp_object.login(email,password)
+```
+
+Now we can send an email using the .sendmail() method and quit.
+
+```py
+from_address = getpass.getpass("Enter your email: ")
+to_address = getpass.getpass("Enter the email of the recipient: ")
+subject = input("Enter the subject line: ")
+message = input("Type out the message you want to send: ")
+msg = "Subject: " + subject + '\n' + message
+smtp_object.sendmail(from_address,to_address,msg)
+
+smtp_object.quit()
+```
+
+### Checking received emails
+
+To view received emails with Python we can use the built in `imaplib` and `email` libraries in Python.
+
+The imaplib library has a special syntax for searching your Inbox.
+
+| Keyword | Definition |
+| - | - |
+| ALL | Returns all messages in your email folder |
+| BEFORE date | Returns all messages before the date. Date must be formatted as 01-Nov-2020 |
+| ON date | Returns all message on the date. Date must be formatted as 01-Nov-2020 |
+| SINCE date | Returns all messages after the date. Date must be formatted as 01-Nov-2020 |
+| FROM some_string | Returns all form the sender in the string |
+| TO some_string | Returns all outgoing email to the email in the string |
+| SUBJECT string | Returns all messages with the subject string |
+| BODY string | Return all message with the string in the body of the email |
+| SEEN or UNSEEN | Returns all messages that have been seen or unseen |
+| ANSWERED or UNANSWERED | Returns all messages that have been replied to or unreplied to |
+| DELETED or UNDELETED | Returns all messages that have been deleted or that have not been deleted |
+
+```py
+import imaplib
+M = imaplib.IMAP4_SSL('imap.gmail.com')
+
+import getpass
+user = input("Enter your email: ")
+password = getpass.getpass("Enter your password: ")
+M.login(user,password)
+
+M.list()
+# List all folder
+
+# Connect to your inbox
+M.select("inbox")
+```
+
+#### Searching Mail
+
+```py
+typ, data = M.search(None, 'SUBJECT "NEW TEST PYTHON')
+email_id = data[0]
+
+result, email_data = M.fetch(email_id, '(RFC822)') # RFC722 protocol
+raw_email = email_data[0][1]
+raw_email_String = raw_email.decode('utf-8')
+
+import email
+email_message = email.message_from_string(raw_email_string)
+
+for part in email_message.walk():
+  if part.get_content_type() == 'text/plain':
+    body = part.get_payload(decode=True)
+    print(body)
+```
