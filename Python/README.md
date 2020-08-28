@@ -1980,3 +1980,92 @@ for part in email_message.walk():
     body = part.get_payload(decode=True)
     print(body)
 ```
+
+## Working with Images
+
+## Opening Images
+
+You can use Pillow to open image files.
+
+```py
+from PIL import Image
+mac = Image.open('example.jpg')
+
+mac.show()
+# show image
+
+mac.size
+# (1993, 1257)
+
+mac.filename
+# 'example.jpg'
+
+mac.format_description
+# 'JPEG (ISO 10918)'
+```
+
+### Cropping images
+
+To crop images (that is grab a sub section) you can use the crop() method on the image object. The crop() method returns a rectangular region from this image. The box is a 4-tuple defining the left, upper, right, and lower pixel coordinate.
+
+Note! If you take a look at the documentation string, it says the tuple you pass in is defined as (x,y,w,h). These variables can be a bit decieving. Its not really a height or width that is being passed, but instead the end coordinates of your width and height.
+
+All the coordinates of box (x, y, w, h) are measured from the **top left corner** of the image.
+
+```py
+mac.crop((0,0,100,100))
+
+# Start at top corner (0,0), START COORDINATES
+x = 0
+y = 0
+
+# Grab about 10% in y direction , and about 30% in x direction, FINISH COORDINATES
+w = 1950/3
+h = 1300/10
+
+computer = mac.crop((x,y,w,h))
+mac.paste(im=computer,box=(0,0))
+```
+
+### Resizing
+
+You can use the resize() method to resize an image
+
+```py
+mac.size
+# (1993, 1257)
+
+h,w = mac.size
+new_h = int(h/3)
+new_w = int(w/3)
+
+# Note this is not permanent change
+# for permanent change, do a reassignment
+# e.g. mac = mac.resize((100,100))
+mac.resize((new_h,new_w))
+```
+
+### Rotating Images
+
+You can rotate images by specifying the amount of degrees to rotate on the rotate() method. The original dimensions will be kept and "filled" in with black. You can optionally pass in the expand parameter to fill the new rotated image to the old dimensions.
+
+```py
+pencils.rotate(90)
+pencils.rotate(90,expand=True)
+```
+
+### Transparency
+
+We can add an alpha value (RGBA stands for RED,Green,Blue, Alpha) where values can go from 0 to 255. If Alpha is 0 the image is completely transparent, if it is 255 then its completely opaque.
+
+You can create your own color here to check for possible values: <https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Colors/Color_picker_tool>
+
+We can adjust image alpha values with the putalpha() method
+
+```py
+red = Image.open('red_color.jpg')
+red.putalpha(128)
+blue.paste(red,(0,0),mask=red) # mask = trasnparenty effect
+```
+
+Transparency and masking can be much more complex than what we've shown here, if you find yourself needing something more, check out the documentation: <https://pillow.readthedocs.io/en/4.3.x/>
