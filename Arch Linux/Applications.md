@@ -12,6 +12,13 @@
 
 ## Applications
 
+If there is an error with gpg you can import the key manually.
+
+```bash
+gpg --keyserver pool.sks-keyservers.net --recv-keys 27EDEAF22F3ABCEB50DB9A125CC908FDB71E12C2
+```
+
+
 ### Default
 
 | Package Name | Package Type |
